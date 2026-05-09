@@ -6,6 +6,9 @@
     <meta name="darkreader-lock">
     <title>DSL Explorer — Domain Specific Language Odyssey</title>
     <meta name="description" content="An exploration of domains and fields for a DSL proposed as a replacement project">
+    <meta property="og:title" content="DSL Explorer">
+    <meta property="og:description" content="Exploration of Domain Specific Languages">
+    <meta property="og:type" content="website">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -764,7 +767,7 @@
                 <span class="red-dot"></span> DSL·Explorer
             </a>
             <ul class="nav-links">
-                <li><a href="synapse-dot.github.io">Home</a></li>
+                <li><a href="https://synapse-dot.github.io">Home</a></li>
                 <li><a href="#abstract">Abstract</a></li>
                 <li><a href="#ideas">Proposals</a></li>
                 <li><a href="#deepseek">DeepSeek</a></li>
@@ -1164,7 +1167,14 @@
                         easing: 'easeOutCubic' });
                 });
             });
-
+            // ─── Smooth scroll for nav links ───
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
             console.log('%c✨ DSL Explorer %cReady %c— Scroll to discover domain ideas.',
                 'font-size:1.2em;font-weight:bold;color:#ff4545;',
                 'color:#a1a1aa;',
