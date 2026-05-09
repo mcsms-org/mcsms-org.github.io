@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="darkreader-lock">
+    <title>DSL Explorer — Domain Specific Language Odyssey</title>
+    <meta name="description" content="An exploration of domains and fields for a DSL proposed as a replacement project">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #060608;
+            --surface: #0d0d12;
+            --surface-2: #13131a;
+            --text: #e8e8ed;
+            --text-secondary: #a1a1aa;
+            --text-muted: #63636b;
+            --accent: #ff4545;
+            --accent-2: #ff8c42;
+            --accent-3: #4ade80;
+            --accent-4: #60a5fa;
+            --accent-5: #a78bfa;
+            --accent-6: #f472b6;
+            --accent-7: #38bdf8;
+            --border: #1e1e28;
+            --border-light: #2a2a35;
+            --radius: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 22px;
+            --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+            --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+            --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #2a2a35 transparent;
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a35;
+            border-radius: 10px;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-sans);
+            line-height: 1.65;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            cursor: default;
+        }
+
+        /* ─── Floating orbs ─── */
+        .orb-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.06;
+            will-change: transform;
+        }
+        .orb-1 {
+            width: 55vmax;
+            height: 55vmax;
+            background: #ff4545;
+            top: -20%;
+            left: -15%;
+        }
+        .orb-2 {
+            width: 40vmax;
+            height: 40vmax;
+            background: #60a5fa;
+            top: 40%;
+            right: -12%;
+            border-radius: 35% 65% 60% 40% / 40% 35% 65% 60%;
+        }
+        .orb-3 {
+            width: 35vmax;
+            height: 35vmax;
+            background: #a78bfa;
+            bottom: -10%;
+            left: 25%;
+            border-radius: 55% 45% 35% 65% / 55% 30% 70% 45%;
+        }
+        .orb-4 {
+            width: 30vmax;
+            height: 30vmax;
+            background: #ff8c42;
+            top: 55%;
+            left: -8%;
+            border-radius: 45% 55% 65% 35% / 35% 55% 45% 65%;
+        }
+        .orb-5 {
+            width: 25vmax;
+            height: 25vmax;
+            background: #4ade80;
+            bottom: 20%;
+            right: 5%;
+            border-radius: 50% 50% 40% 60% / 40% 60% 50% 50%;
+        }
+        .orb-6 {
+            width: 20vmax;
+            height: 20vmax;
+            background: #f472b6;
+            top: 20%;
+            left: 55%;
+            border-radius: 60% 40% 50% 50% / 40% 55% 45% 60%;
+        }
+
+        /* ─── Dot grid ─── */
+        .dot-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.2;
+            background-image: radial-gradient(circle, #1e1e28 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: radial-gradient(ellipse at center, black 25%, transparent 65%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 65%);
+        }
+
+        /* ─── Nav ─── */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            padding: 1rem 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav.scrolled {
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            background: rgba(6, 6, 8, 0.75);
+            border-bottom: 1px solid var(--border);
+            padding: 0.65rem 2rem;
+        }
+        .nav-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: -0.5px;
+        }
+        .nav-logo .red-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: red-dot-pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 69, 69, 0.6);
+        }
+        @keyframes red-dot-pulse {
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 8px rgba(255, 69, 69, 0.5);
+            }
+            50% {
+                transform: scale(2.2);
+                box-shadow: 0 0 20px rgba(255, 69, 69, 0.9);
+            }
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            list-style: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.25s;
+            position: relative;
+            padding: 4px 0;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+            border-radius: 1px;
+        }
+        .nav-links a:hover {
+            color: #fff;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* ─── Scroll progress bar ─── */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: var(--accent);
+            z-index: 300;
+            width: 0%;
+            border-radius: 0 2px 2px 0;
+            box-shadow: 0 0 12px rgba(255, 69, 69, 0.5);
+            transition: width 0.1s linear;
+        }
+        .scroll-progress-ghost {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: rgba(255, 69, 69, 0.2);
+            z-index: 299;
+            width: 100%;
+        }
+
+        /* ─── Hero ─── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            flex-direction: column;
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 7px 18px;
+            border: 1px solid var(--border-light);
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: rgba(13, 13, 18, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 7vw, 6.5rem);
+            font-weight: 700;
+            line-height: 1.06;
+            letter-spacing: -2px;
+            max-width: 850px;
+        }
+        .hero h1 .highlight {
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+        .hero h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            left: -4px;
+            width: calc(100% + 8px);
+            height: 10px;
+            background: rgba(255, 69, 69, 0.15);
+            z-index: -1;
+            border-radius: 5px;
+        }
+        .hero h1 .end-dot {
+            color: var(--accent);
+            animation: red-dot-pulse 2s ease-in-out infinite;
+            display: inline-block;
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin-top: 1.5rem;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+        .hero-scroll {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .hero-scroll:hover {
+            opacity: 1;
+        }
+        .hero-scroll span {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--text-muted);
+        }
+        .hero-scroll-line {
+            width: 1px;
+            height: 35px;
+            background: linear-gradient(to bottom, var(--text-muted), transparent);
+            animation: scroll-line-anim 2s ease-in-out infinite;
+        }
+        @keyframes scroll-line-anim {
+            0%,
+            100% {
+                transform: scaleY(1);
+                transform-origin: top;
+            }
+            50% {
+                transform: scaleY(0.35);
+                transform-origin: top;
+            }
+        }
+
+        /* ─── Sections ─── */
+        .section {
+            position: relative;
+            z-index: 1;
+            padding: 5rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .section-full {
+            max-width: 1100px;
+        }
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--accent);
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+            display: block;
+            font-weight: 600;
+        }
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 600;
+            letter-spacing: -1px;
+            line-height: 1.15;
+            margin-bottom: 2.5rem;
+        }
+        .section-divider {
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            margin: 1.5rem 0 2.5rem;
+        }
+
+        /* ─── Cards ─── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 2.2rem 2.5rem;
+            margin-bottom: 1.3rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+        }
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at top left, rgba(255, 69, 69, 0.03), transparent 65%);
+            pointer-events: none;
+        }
+        .card:hover {
+            border-color: #3a3a48;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+        }
+        .card-accent {
+            border-left: 3px solid var(--accent);
+        }
+        .card-accent-2 {
+            border-left: 3px solid var(--accent-2);
+        }
+        .card-accent-3 {
+            border-left: 3px solid var(--accent-3);
+        }
+        .card-accent-4 {
+            border-left: 3px solid var(--accent-4);
+        }
+        .card-accent-5 {
+            border-left: 3px solid var(--accent-5);
+        }
+        .card-accent-6 {
+            border-left: 3px solid var(--accent-6);
+        }
+        .card-accent-7 {
+            border-left: 3px solid var(--accent-7);
+        }
+        .card-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: 600;
+        }
+        .card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.9rem;
+            letter-spacing: -0.4px;
+        }
+        .card p {
+            color: var(--text-secondary);
+            line-height: 1.75;
+            margin-bottom: 0.7rem;
+        }
+        .card ul {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        .card ul li {
+            padding: 0.45rem 0 0.45rem 1.6rem;
+            position: relative;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .card ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+        }
+
+        /* ─── Code block ─── */
+        .code-block {
+            background: #08080c;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.4rem 1.6rem;
+            margin: 1rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            overflow-x: auto;
+            color: #c9d1d9;
+            line-height: 1.8;
+            position: relative;
+        }
+        .code-block .kw {
+            color: #ff7b72;
+        }
+        .code-block .str {
+            color: #a5d6ff;
+        }
+        .code-block .cmt {
+            color: #8b949e;
+            font-style: italic;
+        }
+        .code-block .num {
+            color: #79c0ff;
+        }
+        .code-block .fn {
+            color: #d2a8ff;
+        }
+
+        /* ─── Tag ─── */
+        .tag {
+            display: inline-block;
+            padding: 4px 11px;
+            border-radius: 100px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            margin: 0.25rem 5px 0.25rem 0;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            transition: all 0.25s;
+        }
+        .tag:hover {
+            border-color: var(--accent);
+            color: #fff;
+        }
+        .tag.accent-tag {
+            background: rgba(255, 69, 69, 0.08);
+            border-color: rgba(255, 69, 69, 0.3);
+            color: #ff6b6b;
+        }
+
+        /* ─── Grid ─── */
+        .ideas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.3rem;
+        }
+        @media (max-width: 768px) {
+            .ideas-grid {
+                grid-template-columns: 1fr;
+            }
+            .section {
+                padding: 3.5rem 1rem;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 2.4rem;
+                letter-spacing: -1px;
+            }
+        }
+
+        /* ─── Highlight box ─── */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255, 69, 69, 0.05), rgba(160, 120, 255, 0.05));
+            border: 1px solid rgba(255, 69, 69, 0.2);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+        .highlight-box::before {
+            content: '❝';
+            position: absolute;
+            top: -22px;
+            left: 18px;
+            font-size: 4.5rem;
+            color: var(--accent);
+            opacity: 0.2;
+            font-family: var(--font-serif);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        /* ─── Toolbox labels ─── */
+        .toolbox-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 1.5rem 0;
+            min-height: 50px;
+            align-items: center;
+        }
+        .toolbox-label {
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+        .toolbox-label.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .toolbox-label.highlight-label {
+            border-color: var(--accent);
+            color: #fff;
+            background: rgba(255, 69, 69, 0.1);
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            line-height: 1.8;
+        }
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ─── Feature link list ─── */
+        .feature-links {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 1rem;
+        }
+        .feature-links li a {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 100px;
+            border: 1px solid transparent;
+            transition: all 0.25s;
+            font-weight: 500;
+        }
+        .feature-links li a:hover {
+            border-color: var(--border-light);
+            color: #fff;
+            background: var(--surface-2);
+        }
+        .feature-links li a svg {
+            width: 14px;
+            height: 14px;
+            color: var(--accent);
+        }
+
+        /* ─── Stagger reveal ─── */
+        .stagger-reveal>* {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+        .stagger-reveal.revealed>* {
+            animation: revealItem 0.6s ease-out forwards;
+        }
+        @keyframes revealItem {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ─── Glitch on hover for certain elements ─── */
+        .glitch-hover {
+            transition: all 0.2s;
+        }
+        .glitch-hover:hover {
+            text-shadow: 1px 1px 0 rgba(255, 69, 69, 0.5), -1px -1px 0 rgba(96, 165, 250, 0.5);
+        }
+
+        /* ─── Animate anything wrapper ─── */
+        .animate-anything-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .animate-anything-dot {
+            color: var(--accent);
+            animation: red-dot-pulse 2s ease-in-out infinite;
+        }
+
+        /* ─── Section spacer ─── */
+        .section-spacer {
+            height: 15vh;
+        }
+
+        /* ─── Sub nav card style ─── */
+        .sub-nav-card {
+            position: sticky;
+            top: 100px;
+            z-index: 10;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1rem 1.5rem;
+            margin: 2rem auto;
+            max-width: 900px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(13, 13, 18, 0.8);
+        }
+        .sub-nav-card .progress-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: red-dot-pulse 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body data-template="home">
+
+    <!-- Floating orbs -->
+    <div class="orb-canvas">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+        <div class="orb orb-5"></div>
+        <div class="orb orb-6"></div>
+    </div>
+    <div class="dot-grid"></div>
+
+    <!-- Scroll progress -->
+    <div class="scroll-progress-ghost"></div>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <span class="red-dot"></span> DSL·Explorer
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#abstract">Abstract</a></li>
+                <li><a href="#ideas">Proposals</a></li>
+                <li><a href="#deepseek">DeepSeek</a></li>
+                <li><a href="#voices">Voices</a></li>
+                <li><a href="#conclusion">Conclusion</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+        <div class="hero-badge" data-reveal>Research Document · 2024</div>
+        <h1 data-reveal>
+            Development of a<br>
+            <span class="highlight">Domain Specific</span> Language<span class="end-dot">.</span>
+        </h1>
+        <p class="hero-subtitle" data-reveal>
+            An exploration of domains and fields for a DSL proposed as a replacement project
+            — or contemporary companion — to <strong>MAIS</strong>.
+        </p>
+        <div class="hero-scroll" data-reveal onclick="document.getElementById('abstract').scrollIntoView({behavior:'smooth'})">
+            <span>Scroll</span>
+            <div class="hero-scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Abstract -->
+    <section class="section" id="abstract">
+        <span class="section-label">00 · Abstract</span>
+        <h2 class="section-title">The Quest for the Right Domain</h2>
+        <div class="section-divider"></div>
+        <div class="card card-accent" data-reveal>
+            <p style="font-size:1.1rem;line-height:1.85;">
+                This document explores ideas of domains and fields for a <strong>Domain Specific Language (DSL)</strong>
+                proposed as a replacement project instead of <strong>MAIS</strong> (Maliyadeva Artificial Intelligence Society)
+                or as a project contemporary with MAIS. The selection of a domain is a hard question — especially
+                due to the many choices available.
+            </p>
+            <p style="color:var(--text-secondary);">
+                We seek a domain that could benefit from a DSL to solve a real problem, one that has weak existing
+                DSL implementation — if any — and one that is feasible to prototype.
+            </p>
+            <div class="toolbox-area" id="toolboxLabels">
+                <span class="toolbox-label">Physics</span>
+                <span class="toolbox-label">Animation</span>
+                <span class="toolbox-label">LaTeX</span>
+                <span class="toolbox-label">Interactive Fiction</span>
+                <span class="toolbox-label">Data Viz</span>
+                <span class="toolbox-label">Procedural Topology</span>
+                <span class="toolbox-label">Educational Sims</span>
+                <span class="toolbox-label">Music</span>
+                <span class="toolbox-label">Workflows</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Author's Ideas -->
+    <section class="section section-full" id="ideas">
+        <span class="section-label">01 · Ideas from the Author</span>
+        <h2 class="section-title">Felix A. Wayne's Proposals</h2>
+        <div class="section-divider"></div>
+        <div class="ideas-grid stagger-reveal" data-stagger>
+            <div class="card card-accent">
+                <span class="card-label">01 · Compiled Language</span>
+                <h3>🔬 Physics Simulations</h3>
+                <p>Users must write long C++ for optimised performance with OpenGL. Tedious and discouraging.</p>
+                <p>Applications extend to gaming and animation.</p>
+                <span class="tag accent-tag">High Performance</span>
+                <span class="tag">OpenGL</span>
+                <span class="tag">Gaming</span>
+            </div>
+            <div class="card card-accent-2">
+                <span class="card-label">02 · Compiled Language</span>
+                <h3>🎬 Animation</h3>
+                <p>The field feels unapproachable — especially for those who cannot draw. Existing tools lack precise programmatic control.</p>
+                <span class="tag accent-tag">Creative</span>
+                <span class="tag">Procedural</span>
+                <span class="tag">Visual</span>
+            </div>
+            <div class="card card-accent-3">
+                <span class="card-label">03 · Document-Based</span>
+                <h3>📝 LaTeX Presentations</h3>
+                <p>LaTeX revolutionized documents but not presentations. An alternative to PowerPoint based on LaTeX — awesome, right?</p>
+                <span class="tag accent-tag">Practical</span>
+                <span class="tag">Beamer</span>
+                <span class="tag">Productivity</span>
+            </div>
+        </div>
+        <div class="card" data-reveal style="margin-top:1.3rem;">
+            <span class="card-label">📋 Other Domain Ideas</span>
+            <ul>
+                <li>A DSL for learning that visualises data structures</li>
+                <li>A DSL for translating musical notation to computer code and music</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- DeepSeek Ideas -->
+    <section class="section section-full" id="deepseek">
+        <span class="section-label">02 · Ideas of DeepSeek</span>
+        <h2 class="section-title">A Nudge in a Slightly Different Direction</h2>
+        <div class="section-divider"></div>
+        <p style="color:var(--text-secondary);margin-bottom:2rem;font-style:italic;" data-reveal>
+            "Dear Felix, these are genuinely fun domains. I'd like to toss a few thoughts onto the pile."
+        </p>
+        <div class="ideas-grid stagger-reveal" data-stagger>
+            <div class="card card-accent-4">
+                <span class="card-label">DeepSeek · Physics</span>
+                <h3>⚡ Built-in Unit Awareness</h3>
+                <p>Write <code style="background:#13131a;padding:2px 8px;border-radius:4px;font-family:var(--font-mono);font-size:0.8rem;">ball.velocity = 9.8 m/s</code> and get alerts when units mismatch. Embed a tiny constraint solver.</p>
+            </div>
+            <div class="card card-accent-4">
+                <span class="card-label">DeepSeek · Animation</span>
+                <h3>🎭 Procedural Animation</h3>
+                <div class="code-block">
+                    <span class="kw">actor</span> <span class="fn">Sun</span>:<br>
+                    &nbsp;&nbsp;<span class="fn">position</span> center<br>
+                    &nbsp;&nbsp;<span class="fn">rotate</span> <span class="num">0</span> -> <span class="num">360</span> <span class="kw">over</span> <span class="str">10s</span> <span class="kw">loop</span>
+                </div>
+                <p>No drawing required — shapes as primitive geometries or SVGs.</p>
+            </div>
+            <div class="card card-accent-4">
+                <span class="card-label">DeepSeek · Fresh</span>
+                <h3>📖 Interactive Fiction DSL</h3>
+                <p>Text-driven interactive fiction with scenes, choices, conditions, and inventory — compiles to a web player.</p>
+                <span class="tag accent-tag">Novel</span>
+                <span class="tag">No Drawing</span>
+                <span class="tag">Version Control</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ChatGPT Ideas -->
+    <section class="section" id="chatgpt">
+        <span class="section-label">03 · Ideas of ChatGPT</span>
+        <h2 class="section-title">Pleasant to Use, Repeatedly</h2>
+        <div class="section-divider"></div>
+        <div class="card card-accent-5" data-reveal>
+            <span class="card-label">ChatGPT · Criteria</span>
+            <h3>🧭 Choosing the Right Domain</h3>
+            <ul>
+                <li>A clear real-world use case</li>
+                <li>Small enough to prototype</li>
+                <li>Benefits from textual expressiveness</li>
+                <li>Not already completely solved by mainstream tools</li>
+            </ul>
+            <p style="margin-top:1rem;"><strong>Final view:</strong> Choose the domain you can imagine refining for a long time without getting bored.</p>
+            <span class="tag accent-tag">Physics = Ambitious</span>
+            <span class="tag">Animation = Creative</span>
+            <span class="tag">LaTeX = Practical</span>
+        </div>
+    </section>
+
+    <!-- Gemini Ideas -->
+    <section class="section" id="gemini">
+        <span class="section-label">04 · Ideas of Google Gemini</span>
+        <h2 class="section-title">The High-Friction Gap</h2>
+        <div class="section-divider"></div>
+        <div class="card card-accent-2" data-reveal>
+            <span class="card-label">Gemini · Top Choice</span>
+            <h3>🏗️ Procedural Topology & Layouts DSL</h3>
+            <p>Algorithmic generation of structured spaces — UI layouts, circuit diagrams, game levels. Define spatial constraints, not absolute positions.</p>
+            <span class="tag accent-tag">Gemini's #1 Pick</span>
+        </div>
+        <div class="card card-accent-2" data-reveal>
+            <span class="card-label">Gemini · Experimental</span>
+            <h3>🎵 Algorithmic Music Composition DSL</h3>
+            <p>Treat music as mathematical patterns: oscillators, envelopes, recursive structures. A "Physics of Sound" project.</p>
+        </div>
+    </section>
+
+    <!-- Meta & Mistral -->
+    <section class="section section-full" id="voices">
+        <span class="section-label">05 · More Voices</span>
+        <h2 class="section-title">Meta AI & Le Chat Mistral</h2>
+        <div class="section-divider"></div>
+        <div class="ideas-grid stagger-reveal" data-stagger>
+            <div class="card card-accent-6">
+                <span class="card-label">Meta AI</span>
+                <h3>📊 Interactive Visualization DSL</h3>
+                <p>Blend between D3.js and declarative syntax. Describe data, visual elements, and interactions.</p>
+                <div class="code-block"><span class="fn">data</span>: <span class="str">sales.csv</span><br><span class="fn">chart</span>: bar<br><span class="fn">interaction</span>: hover -> tooltip</div>
+            </div>
+            <div class="card card-accent-6">
+                <span class="card-label">Meta AI</span>
+                <h3>🔗 Data Pipeline DSL</h3>
+                <p>Define data sources, transformations, and sinks declaratively.</p>
+                <div class="code-block"><span class="fn">input</span>: <span class="str">db://sales</span><br><span class="fn">transform</span>: filter date > <span class="str">'2020-01-01'</span></div>
+            </div>
+            <div class="card card-accent-3">
+                <span class="card-label">Mistral</span>
+                <h3>🏫 Educational Simulations DSL</h3>
+                <p>Focus on clarity, interactivity, and pedagogical value. Pause, step-through, visual debugging, embedded questions.</p>
+                <span class="tag accent-tag">Inspired by Algodoo</span>
+            </div>
+            <div class="card card-accent-3">
+                <span class="card-label">Mistral</span>
+                <h3>🤝 Collaborative Workflows DSL</h3>
+                <p>Define, visualize, and automate team processes — human-readable yet machine-executable.</p>
+                <span class="tag">GitHub Actions</span>
+                <span class="tag">Portable</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sub nav card -->
+    <div class="sub-nav-card" data-reveal>
+        <span class="progress-dot"></span>
+        <span style="color:var(--text-secondary);">Exploring domains: Physics · Animation · LaTeX · Interactive Fiction · Data Viz · Procedural Topology · Educational Sims · Music · Workflows</span>
+    </div>
+
+    <!-- Conclusion -->
+    <section class="section" id="conclusion">
+        <span class="section-label">06 · Conclusion</span>
+        <h2 class="section-title">From Analysis to Construction</h2>
+        <div class="section-divider"></div>
+        <div class="highlight-box" data-reveal>
+            <p style="font-size:1.1rem;line-height:1.85;color:var(--text);">
+                The most suitable domains for a DSL are those that exhibit a <strong style="color:var(--accent);">clear mismatch between human conceptual simplicity and implementation complexity</strong>.
+            </p>
+            <p style="line-height:1.85;color:var(--text-secondary);">
+                Across all contributions, a consistent pattern emerges: domains such as physics simulations,
+                animation, and procedural systems share well-defined rules, structured behavior, and visual outputs.
+                The problem is no longer the lack of viable domains, but the <strong style="color:var(--text);">necessity of commitment</strong>.
+            </p>
+        </div>
+        <div class="card" data-reveal style="text-align:center;">
+            <span class="card-label">Your Take</span>
+            <h3 class="glitch-hover">Which domain appeals most to you?</h3>
+            <p style="color:var(--text-secondary);">Do you have an idea for a domain? The conversation is open.</p>
+            <p style="color:var(--accent);font-weight:700;font-size:1.1rem;">✧ What will you build? ✧</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><strong>DSL Exploration Document</strong> · Felix A. Wayne et al.</p>
+        <p>With contributions from DeepSeek, ChatGPT, Google Gemini, Meta AI & Le Chat Mistral</p>
+        <p style="margin-top:0.5rem;">Built with <span style="color:var(--accent);">♥</span> and <a href="https://animejs.com/" target="_blank" rel="noopener">anime.js</a></p>
+    </footer>
+
+    <!-- anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js">
+    </script>
+    <script>
+        (function() {
+            // ─── Scroll progress bar ───
+            const progressBar = document.getElementById('scrollProgress');
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrolled = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                progressBar.style.width = scrolled + '%';
+            });
+
+            // ─── Nav scroll effect ───
+            const nav = document.getElementById('nav');
+            window.addEventListener('scroll', () => {
+                nav.classList.toggle('scrolled', window.scrollY > 60);
+            });
+
+            // ─── Floating orbs continuous animation ───
+            const orbAnimations = [
+                { targets: '.orb-1', translateX: [0, 80, -40, 0], translateY: [0, -50, 30, 0], scale: [1, 1.35, 0.85,
+                        1
+                    ], duration: 20000 },
+                { targets: '.orb-2', translateX: [0, -60, 40, 0], translateY: [0, 40, -60, 0], scale: [1, 1.25, 0.9,
+                    1
+                ], duration: 22000 },
+                { targets: '.orb-3', translateX: [0, 50, -70, 0], translateY: [0, -35, 50, 0], scale: [1, 1.4, 0.8,
+                    1
+                ], duration: 24000 },
+                { targets: '.orb-4', translateX: [0, -45, 60, 0], translateY: [0, 55, -30, 0], scale: [1, 1.2, 0.9,
+                    1
+                ], duration: 19000 },
+                { targets: '.orb-5', translateX: [0, 65, -50, 0], translateY: [0, -25, 45, 0], scale: [1, 1.3, 0.85,
+                    1
+                ], duration: 21000 },
+                { targets: '.orb-6', translateX: [0, -30, 55, 0], translateY: [0, 45, -55, 0], scale: [1, 1.38, 0.88,
+                    1
+                ], duration: 18000 },
+            ];
+            orbAnimations.forEach(cfg => {
+                anime({ ...cfg, loop: true, easing: 'easeInOutSine' });
+            });
+
+            // ─── Scroll-triggered reveal ───
+            const revealEls = document.querySelectorAll('[data-reveal]');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        anime({
+                            targets: el,
+                            translateY: [40, 0],
+                            opacity: [0, 1],
+                            duration: 750,
+                            easing: 'easeOutCubic',
+                        });
+                        revealObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+            revealEls.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(40px)';
+                revealObserver.observe(el);
+            });
+
+            // ─── Stagger reveal for grids ───
+            const staggerContainers = document.querySelectorAll('[data-stagger]');
+            const staggerObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const container = entry.target;
+                        const children = container.children;
+                        anime({
+                            targets: children,
+                            translateY: [30, 0],
+                            opacity: [0, 1],
+                            duration: 600,
+                            delay: anime.stagger(90, { start: 150 }),
+                            easing: 'easeOutCubic',
+                        });
+                        staggerObserver.unobserve(container);
+                    }
+                });
+            }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+            staggerContainers.forEach(el => {
+                Array.from(el.children).forEach(child => {
+                    child.style.opacity = '0';
+                    child.style.transform = 'translateY(30px)';
+                });
+                staggerObserver.observe(el);
+            });
+
+            // ─── Toolbox labels animation ───
+            const toolboxArea = document.getElementById('toolboxLabels');
+            if (toolboxArea) {
+                const labels = toolboxArea.querySelectorAll('.toolbox-label');
+                const toolboxObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        anime({
+                            targets: labels,
+                            translateY: [20, 0],
+                            opacity: [0, 1],
+                            duration: 500,
+                            delay: anime.stagger(60, { start: 200 }),
+                            easing: 'easeOutCubic',
+                        });
+                        // Highlight random labels periodically
+                        setInterval(() => {
+                            const randomLabel = labels[Math.floor(Math.random() * labels
+                                .length)];
+                            randomLabel.classList.add('highlight-label');
+                            setTimeout(() => randomLabel.classList.remove(
+                                'highlight-label'), 1200);
+                        }, 2500);
+                        toolboxObserver.unobserve(toolboxArea);
+                    }
+                }, { threshold: 0.3 });
+                toolboxObserver.observe(toolboxArea);
+            }
+
+            // ─── Hero initial animation ───
+            window.addEventListener('load', () => {
+                const heroReveals = document.querySelectorAll('.hero [data-reveal]');
+                anime({
+                    targets: heroReveals,
+                    translateY: [60, 0],
+                    opacity: [0, 1],
+                    duration: 850,
+                    delay: anime.stagger(160, { start: 250 }),
+                    easing: 'easeOutCubic',
+                });
+            });
+
+            // ─── Smooth scroll for nav links ───
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+
+            // ─── Card hover micro-interaction ───
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    anime({ targets: card, scale: [1, 1.015], duration: 350,
+                        easing: 'easeOutCubic' });
+                });
+                card.addEventListener('mouseleave', () => {
+                    anime({ targets: card, scale: [1.015, 1], duration: 350,
+                        easing: 'easeOutCubic' });
+                });
+            });
+
+            console.log('%c✨ DSL Explorer %cReady %c— Scroll to discover domain ideas.',
+                'font-size:1.2em;font-weight:bold;color:#ff4545;',
+                'color:#a1a1aa;',
+                'color:#e8e8ed;');
+            console.log('%cPowered by anime.js %c• %cSick animations engaged',
+                'color:#ff8c42;',
+                'color:#63636b;',
+                'color:#e8e8ed;');
+        })();
+    </script>
+</body>
+</html>
