@@ -41,6 +41,8 @@
       <p style="font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 1rem; margin-bottom: 0.5rem;">Onboarding Path</p>
       <ul class="toc-list">
         <li class="toc-item"><a href="#intro" class="toc-link">Intro Video</a></li>
+        <li class="toc-item"><a href="#modeling-basics" class="toc-link">Modeling Basics</a></li>
+        <li class="toc-item"><a href="#collision-sims" class="toc-link">Collision Sims</a></li>
         <li class="toc-item"><a href="#env" class="toc-link">Environment Setup</a></li>
         <li class="toc-item"><a href="#wsl" class="toc-link">WSL Guide</a></li>
         <li class="toc-item"><a href="#ubuntu" class="toc-link">Ubuntu Guide</a></li>
@@ -64,6 +66,8 @@
           <option value="">Jump to section...</option>
           <optgroup label="Onboarding Path">
             <option value="#intro">Intro Video</option>
+            <option value="#modeling-basics">Modeling Basics</option>
+            <option value="#collision-sims">Collision Sims</option>
             <option value="#env">Environment Setup</option>
             <option value="#wsl">WSL Guide</option>
             <option value="#ubuntu">Ubuntu Guide</option>
@@ -94,6 +98,40 @@
         </div>
         <div class="tutorial-nav">
           <span></span>
+          <button class="btn" onclick="nextPage()">Next: Modeling Basics</button>
+        </div>
+      </section>
+
+      <section id="modeling-basics">
+        <div class="section-header">
+          <div class="section-label">Watch</div>
+          <h2>What Is Modeling and Simulation?</h2>
+        </div>
+        <div class="video-wrap">
+          <iframe width="100%" height="450" src="https://www.youtube.com/embed/PUn_oeZLLb8" title="What Is Modeling and Simulation?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="status-card" style="margin-top: 1px; border-top: none;">
+          <p>Learn the basics of modeling and simulation, including the three types of models—physical, virtual, and mathematical—and the three types of simulations: live, virtual, and constructive. Discover how Simulink® is used to bring mathematical models and virtual simulations together, helping engineers apply these concepts to design and validate complex systems.</p>
+        </div>
+        <div class="tutorial-nav">
+          <button class="btn btn-prev" onclick="prevPage()">Previous</button>
+          <button class="btn" onclick="nextPage()">Next: Collision Sims</button>
+        </div>
+      </section>
+
+      <section id="collision-sims">
+        <div class="section-header">
+          <div class="section-label">Watch</div>
+          <h2>Building Collision Simulations</h2>
+        </div>
+        <div class="video-wrap">
+          <iframe width="100%" height="450" src="https://www.youtube.com/embed/eED4bSkYCB8" title="Building Collision Simulations" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="status-card" style="margin-top: 1px; border-top: none;">
+          <p>An introduction to computer graphics through the lens of collision detection. This video covers the basics of animation, discrete vs. continuous collision detection, and advanced optimization schemes like sweep and prune, uniform grids, K-D trees, and bounding volume hierarchies.</p>
+        </div>
+        <div class="tutorial-nav">
+          <button class="btn btn-prev" onclick="prevPage()">Previous</button>
           <button class="btn" onclick="nextPage()">Next: Environment Setup</button>
         </div>
       </section>
