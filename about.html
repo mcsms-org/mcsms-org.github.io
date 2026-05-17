@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>About | Simulation & Modelling Society</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="About | Simulation & Modelling Society" />
+<meta property="og:description" content="Meet the team behind the Simulation & Modelling Society." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://synapse-dot.github.io/about.html" />
+<link rel="icon" type="image/png" href="images/logos/logo.png">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .team-card {
+    background: var(--surface);
+    padding: 2rem;
+    display: flex;
+    gap: 1.5rem;
+  }
+  .team-avatar {
+    width: 60px;
+    height: 60px;
+    background: var(--accent-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .team-name { margin-bottom: 0.2rem; }
+  .team-role {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  .team-bio { font-size: 0.85rem; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span>Simulation &amp; Modelling Society</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html" class="active">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="resources.html">Resources</a>
+    <a href="join.html">Join</a>
+  </div>
+</nav>
+
+<main class="container">
+
+  <div class="page-title">
+    <div class="hero-label">Who We Are</div>
+    <h1>About the<br>Society</h1>
+    <p>A student-run society dedicated to exploring science, engineering, and computation through hands-on simulation projects.</p>
+  </div>
+
+  <section style="margin-top: 2rem;">
+    <div class="section-header">
+      <div class="section-label">Origin</div>
+      <h2>How We Started</h2>
+    </div>
+    <div class="status-card">
+      <p>The Simulation &amp; Modelling Society was founded in <strong>2024</strong> at <strong>the University</strong> by a small group of students who wanted a space to apply computational thinking beyond the lecture hall. What started as informal study sessions around physics simulations grew into a structured society with a roadmap of collaborative projects.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-header">
+      <div class="section-label">Mission</div>
+      <h2>What We Stand For</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-num">01</span>
+        <h3>Hands-On Learning</h3>
+        <p>We believe the best way to understand a system is to build one. Every project starts from first principles — no black boxes.</p>
+      </div>
+      <div class="card">
+        <span class="card-num">02</span>
+        <h3>Open Collaboration</h3>
+        <p>Projects are owned by the whole team. Ideas, code, and credit are shared openly regardless of experience level.</p>
+      </div>
+      <div class="card">
+        <span class="card-num">03</span>
+        <h3>Rigorous Curiosity</h3>
+        <p>We ask hard questions and follow them carefully — whether that leads to a working model or a better-defined problem.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-header">
+      <div class="section-label">The team</div>
+      <h2>Committee</h2>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar"><span>FW</span></div>
+        <div class="team-info">
+          <h3 class="team-name">Felix Wayne</h3>
+          <span class="team-role">Founder & Lead</span>
+          <p class="team-bio">Engineering student with a passion for building computational models from scratch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-header">
+      <div class="section-label">Location &amp; schedule</div>
+      <h2>Find Us</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-num">📍</span>
+        <h3>Meeting Location</h3>
+        <p>Main Campus, Engineering Block</p>
+      </div>
+      <div class="card">
+        <span class="card-num">📅</span>
+        <h3>Meeting Schedule</h3>
+        <p>Every Wednesday, 5:00 PM</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <span class="corner-mark">JOIN</span>
+    <h2>Want to Be Part of This?</h2>
+    <p>We're always looking for curious people. No experience required — just bring your interest in how things work.</p>
+    <a href="join.html" class="btn">Join the Society</a>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2026 Simulation & Modelling Society</p>
+    <div class="footer-links">
+      <a href="mailto:felixx.a.wayne32@gmail.com">Email</a>
+      <a href="https://wa.me/94710638587" target="_blank" rel="noopener">WhatsApp 1</a>
+      <a href="https://wa.me/94776526043" target="_blank" rel="noopener">WhatsApp 2</a>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js" defer></script>
+</body>
+</html>
