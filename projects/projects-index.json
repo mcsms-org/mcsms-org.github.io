@@ -1,0 +1,44 @@
+[
+  {
+    "id": "projectile-motion",
+    "title": "Projectile Motion",
+    "description": "Real-time simulation of trajectory dynamics with configurable air resistance and initial conditions.",
+    "tags": ["Physics", "Kinematics"],
+    "link": "projects/projectile-motion/"
+  },
+  {
+    "id": "space-time-visualizer",
+    "title": "Space-Time Visualizer",
+    "description": "Visual model of gravitational lensing effects and the curvature of space-time around massive bodies.",
+    "tags": ["Relativity", "GR"],
+    "link": "projects/space-time-visualizer/"
+  },
+  {
+    "id": "physics-engine",
+    "title": "Game Physics Engine",
+    "description": "Collision detection system handling velocities, restitution, and force vectors for interactive environments.",
+    "tags": ["Engines", "Mechanics"],
+    "link": "projects/physics-engine/"
+  },
+  {
+    "id": "epidemic-model",
+    "title": "Epidemic Model",
+    "description": "SIR/SEIR compartmental model for simulating disease spread with adjustable transmission parameters.",
+    "tags": ["Biology", "Systems"],
+    "link": "projects/epidemic-model/"
+  },
+  {
+    "id": "particle-system",
+    "title": "Particle System",
+    "description": "N-body collision engine with energy and momentum conservation principles across particle interactions.",
+    "tags": ["N-body", "Thermodynamics"],
+    "link": "projects/particle-system/"
+  },
+  {
+    "id": "climate-model",
+    "title": "Climate Model",
+    "description": "Simplified coupled atmospheric model simulating temperature, CO₂ feedback, and long-term trends.",
+    "tags": ["Climate", "Earth Systems"],
+    "link": "projects/climate-model/"
+  }
+]
