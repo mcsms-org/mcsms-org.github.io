@@ -69,7 +69,7 @@
 </footer>
 
 <script>
-  fetch('/projects/projects-index.json')
+  fetch('projects/projects-index.json')
     .then(response => {
       if (!response.ok) throw new Error('Network response was not ok');
       return response.json();
@@ -78,7 +78,7 @@
       const grid = document.getElementById('project-grid');
       data.forEach((project, index) => {
         const card = document.createElement('a');
-        card.href = '/' + project.link;
+        card.href = project.link;
         card.className = 'card reveal-pending';
         card.style.textDecoration = 'none';
         card.innerHTML = `
