@@ -437,21 +437,154 @@ section { margin-top: 5rem; }
   pointer-events: none;
 }
 
-/* Animation */
+/* ── Keyframes ───────────────────────────────────────────── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scanLine {
+  0%   { top: -6px; opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { top: calc(100% + 6px); opacity: 0; }
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+@keyframes glitchA {
+  0%   { clip-path: inset(0 0 95% 0);  transform: translate(-3px, 0); }
+  20%  { clip-path: inset(30% 0 50% 0); transform: translate(3px, 0); }
+  40%  { clip-path: inset(60% 0 20% 0); transform: translate(-2px, 0); }
+  60%  { clip-path: inset(80% 0 5% 0);  transform: translate(2px, 0); }
+  80%  { clip-path: inset(10% 0 75% 0); transform: translate(-1px, 0); }
+  100% { clip-path: inset(0 0 95% 0);  transform: translate(0, 0); }
+}
+@keyframes glitchB {
+  0%   { clip-path: inset(50% 0 30% 0); transform: translate(4px, 0); }
+  25%  { clip-path: inset(10% 0 70% 0); transform: translate(-4px, 0); }
+  50%  { clip-path: inset(75% 0 10% 0); transform: translate(2px, 0); }
+  75%  { clip-path: inset(20% 0 60% 0); transform: translate(-2px, 0); }
+  100% { clip-path: inset(50% 0 30% 0); transform: translate(0, 0); }
 }
 
-.hero, .card, .why-card, .status-card, .cta-section {
-  animation: fadeUp 0.6s ease-out both;
+/* ── Hero load animation ─────────────────────────────────── */
+.hero { animation: fadeUp 0.7s ease-out both; }
+
+/* ── Glitch text effect ──────────────────────────────────── */
+.glitch-text { position: relative; }
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  white-space: pre-wrap;
 }
 
-.card:nth-child(2) { animation-delay: 0.05s; }
-.card:nth-child(3) { animation-delay: 0.1s; }
-.card:nth-child(4) { animation-delay: 0.15s; }
-.card:nth-child(5) { animation-delay: 0.2s; }
-.card:nth-child(6) { animation-delay: 0.25s; }
+.glitch-text::before { color: #ff4ecd; }
+.glitch-text::after  { color: var(--accent); }
+
+.glitch-burst::before {
+  opacity: 0.75;
+  animation: glitchA 0.08s steps(1) 3;
+}
+.glitch-burst::after {
+  opacity: 0.75;
+  animation: glitchB 0.08s steps(1) 3;
+}
+
+/* ── Typewriter widget ───────────────────────────────────── */
+.typewriter-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 1rem 0 2rem;
+  min-height: 1.4rem;
+}
+
+.typewriter-prefix {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.typewriter-text {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+
+.typewriter-cursor {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  animation: cursorBlink 0.9s step-end infinite;
+  margin-left: 1px;
+}
+
+/* ── Card cursor-glow ────────────────────────────────────── */
+.card, .why-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.card::after, .why-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle 120px at var(--mx, 50%) var(--my, 50%),
+    rgba(99, 179, 255, 0.09),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.card.card-lit::after, .why-card.card-lit::after { opacity: 1; }
+
+/* Scan-line sweep on hover */
+.card::before, .why-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99, 179, 255, 0.4), transparent);
+  top: -6px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+  transition: none;
+}
+
+.card:hover::before, .why-card:hover::before {
+  animation: scanLine 0.7s ease-in-out forwards;
+}
+
+/* ── Nav scroll behaviour ────────────────────────────────── */
+nav {
+  transition: height 0.3s ease, background 0.3s ease, transform 0.35s ease;
+}
+
+.nav-scrolled {
+  height: 52px !important;
+  background: rgba(5, 8, 16, 0.96) !important;
+}
+
+.nav-hidden { transform: translateY(-100%); }
+.nav-visible { transform: translateY(0); }
 
 /* ── Canvas particle layer ───────────────────────────────── */
 .hero { isolation: isolate; }
