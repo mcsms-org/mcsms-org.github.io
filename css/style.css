@@ -901,8 +901,38 @@ nav {
 }
 
 /* ── Responsive — Small mobile (≤400px) ──────────────────── */
-@media (max-width: 400px) {
-  .why-grid { grid-template-columns: 1fr; }
-  .hero h1 { font-size: 1.9rem; }
-  .nav-logo { font-size: 0.72rem; }
+/* Tutorial/Wiki Pagination Styles */
+.toc-content section {
+  display: none;
+  animation: fadeUp 0.4s ease-out;
 }
+
+.toc-content section.active {
+  display: block;
+}
+
+.tutorial-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.tutorial-nav .btn-prev {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.tutorial-nav .btn-prev:hover {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.toc-sidebar .toc-link.active {
+  background: var(--accent-dim);
+  border-radius: 4px;
+}
+

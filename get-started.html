@@ -60,7 +60,7 @@
 
     <div class="toc-content">
       <div class="mobile-toc">
-        <select onchange="window.location.hash=this.value">
+        <select onchange="navigateToSection(this.value)">
           <option value="">Jump to section...</option>
           <optgroup label="Onboarding Path">
             <option value="#intro">Intro Video</option>
@@ -78,7 +78,7 @@
         </select>
       </div>
 
-      <section id="intro" style="margin-top: 2rem;">
+      <section id="intro" class="active" style="margin-top: 2rem;">
         <div class="section-header">
           <div class="section-label">Watch</div>
           <h2>Introduction to the Club</h2>
@@ -92,6 +92,10 @@
         <div class="status-card" style="margin-top: 1px; border-top: none;">
           <p>This introduction covers our society's core philosophy, the technical roadmap of our projects, our rigorous development methodology, and what you can expect from your academic journey with us.</p>
         </div>
+        <div class="tutorial-nav">
+          <span></span>
+          <button class="btn" onclick="nextPage()">Next: Environment Setup</button>
+        </div>
       </section>
 
       <section id="env">
@@ -104,12 +108,20 @@
           <p style="font-family: var(--font-mono); font-size: 0.88rem; color: var(--accent); margin-bottom: 0.5rem; letter-spacing: 0.05em;">Don't worry — we'll walk you through it.</p>
           <p>An onboarding session will be held at the start of the semester to guide all new members through initial installations, environment setup, and tooling. You don't need to set anything up before joining — these guides are here as a reference for whenever you're ready.</p>
         </div>
+        <div class="tutorial-nav">
+          <button class="btn btn-prev" onclick="prevPage()">Previous</button>
+          <button class="btn" onclick="nextPage()">Next: WSL Guide</button>
+        </div>
       </section>
 
       <section id="wsl">
+        <div class="section-header">
+          <div class="section-label">Setup</div>
+          <h2>WSL — Windows Subsystem for Linux</h2>
+        </div>
         <div class="card">
           <span class="card-num">01</span>
-          <h3>WSL — Windows Subsystem for Linux</h3>
+          <h3>WSL Installation</h3>
           <p>If you're on Windows, WSL lets you run a full Linux environment directly inside Windows — no virtual machine, no dual boot. This is the recommended setup for members on Windows machines.</p>
           <a href="https://learn.microsoft.com/en-us/windows/wsl/install"
              target="_blank" rel="noopener"
@@ -118,12 +130,20 @@
             <span class="resource-link-arrow">↗</span>
           </a>
         </div>
+        <div class="tutorial-nav">
+          <button class="btn btn-prev" onclick="prevPage()">Previous</button>
+          <button class="btn" onclick="nextPage()">Next: Ubuntu Guide</button>
+        </div>
       </section>
 
-      <section id="ubuntu" style="margin-top: 1rem;">
+      <section id="ubuntu">
+        <div class="section-header">
+          <div class="section-label">Setup</div>
+          <h2>Ubuntu Desktop Install</h2>
+        </div>
         <div class="card">
           <span class="card-num">02</span>
-          <h3>Ubuntu Desktop Install</h3>
+          <h3>Full Installation</h3>
           <p>Prefer a full Linux installation? This official Ubuntu tutorial walks you through installing Ubuntu Desktop from scratch — including partitioning, bootloader setup, and first-boot configuration.</p>
           <a href="https://documentation.ubuntu.com/desktop/en/latest/tutorial/install-ubuntu-desktop/"
              target="_blank" rel="noopener"
@@ -132,9 +152,13 @@
             <span class="resource-link-arrow">↗</span>
           </a>
         </div>
+        <div class="tutorial-nav">
+          <button class="btn btn-prev" onclick="prevPage()">Previous</button>
+          <button class="btn" onclick="nextPage()">Next: Project Euler</button>
+        </div>
       </section>
 
-      <section id="euler" style="margin-top: 3rem;">
+      <section id="euler">
         <div class="section-header">
           <div class="section-label">Challenge</div>
           <h2>Project Euler</h2>
@@ -146,9 +170,13 @@
             <span class="resource-link-arrow">↗</span>
           </a>
         </div>
+        <div class="tutorial-nav">
+          <button class="btn btn-prev" onclick="prevPage()">Previous</button>
+          <button class="btn" onclick="nextPage()">Next: Simulation Theory</button>
+        </div>
       </section>
 
-      <section id="theory" style="margin-top: 3rem;">
+      <section id="theory">
         <div class="section-header">
           <div class="section-label">Theory</div>
           <h2>Simulation Theory</h2>
@@ -160,9 +188,13 @@
             <span class="resource-link-arrow">↗</span>
           </a>
         </div>
+        <div class="tutorial-nav">
+          <button class="btn btn-prev" onclick="prevPage()">Previous</button>
+          <button class="btn" onclick="nextPage()">Next: Project Guide</button>
+        </div>
       </section>
 
-      <section id="template" style="margin-top: 3rem;">
+      <section id="template">
         <div class="section-header">
           <div class="section-label">Documentation</div>
           <h2>Project Template Guide</h2>
@@ -173,6 +205,10 @@
             <span>Read Project Guide</span>
             <span class="resource-link-arrow">↗</span>
           </a>
+        </div>
+        <div class="tutorial-nav">
+          <button class="btn btn-prev" onclick="prevPage()">Previous</button>
+          <span></span>
         </div>
       </section>
     </div>
@@ -198,6 +234,65 @@
   </div>
 </footer>
 
+<script>
+  const sections = document.querySelectorAll('.toc-content section');
+  const tocLinks = document.querySelectorAll('.toc-link');
+  let currentStep = 0;
+
+  function updateView() {
+    sections.forEach((section, index) => {
+      section.classList.toggle('active', index === currentStep);
+    });
+
+    tocLinks.forEach((link, index) => {
+      link.classList.toggle('active', index === currentStep);
+    });
+
+    // Update URL hash without jumping
+    const id = sections[currentStep].id;
+    history.replaceState(null, null, '#' + id);
+  }
+
+  function nextPage() {
+    if (currentStep < sections.length - 1) {
+      currentStep++;
+      updateView();
+      window.scrollTo(0, 0);
+    }
+  }
+
+  function prevPage() {
+    if (currentStep > 0) {
+      currentStep--;
+      updateView();
+      window.scrollTo(0, 0);
+    }
+  }
+
+  function navigateToSection(hash) {
+    const id = hash.replace('#', '');
+    const index = Array.from(sections).findIndex(s => s.id === id);
+    if (index !== -1) {
+      currentStep = index;
+      updateView();
+    }
+  }
+
+  // Handle sidebar clicks
+  tocLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      navigateToSection(link.getAttribute('href'));
+    });
+  });
+
+  // Init from hash
+  if (window.location.hash) {
+    navigateToSection(window.location.hash);
+  } else {
+    updateView();
+  }
+</script>
 <script src="/main.js" defer></script>
 </body>
 </html>
