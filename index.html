@@ -1,59 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Simulation & Modeling Society</title>
-    <meta property="og:title" content="Simulation & Modelling Society" />
-    <meta property="og:description" content="Exploring science, engineering, and computation through simulation projects." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://synapse-dot.github.io/" />
-    <link rel="icon" type="image/png" href="images/logos/logo.png">
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Importing fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Simulation & Modelling Society</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Simulation & Modelling Society" />
+<meta property="og:description" content="Exploring science, engineering, and computation through simulation projects." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://synapse-dot.github.io/" />
+<link rel="icon" type="image/png" href="images/logos/logo.png">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <nav>
-        <div class="logo">Simulation & Modelling Society</div>
-        <div>
-            <a href="index.html">Home</a>
-            <a href="projects.html">Projects</a>
-            <a href="resources.html">Resources</a>
-            <a href="join.html">Join</a>
-        </div>
-    </nav>
-    <main class="container">
-        <section class="hero">
-            <h1>Simulation & Modeling Society</h1>
-            <p>Exploring science, engineering, and computation through simulation projects.</p>
-            <a href="join.html" class="btn">Join the Society</a>
-        </section>
 
-        <section style="margin-top: 4rem;">
-            <h2>Areas of Interest</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
-                <div class="card">
-                    <h3>Physics Simulations</h3>
-                    <p class="muted-text">Motion • collisions • fluids</p>
-                </div>
-                <div class="card">
-                    <h3>Real-World Systems</h3>
-                    <p class="muted-text">Climate • disease spread • ecosystems</p>
-                </div>
-                <div class="card">
-                    <h3>Mathematical Models</h3>
-                    <p class="muted-text">Equations • probability • complex systems</p>
-                </div>
-                <div class="card">
-                    <h3>Simulation Engines</h3>
-                    <p class="muted-text">Physics engines • rule systems • frameworks</p>
-                </div>
-                <div class="card">
-                    <h3>Scientific Visualization</h3>
-                    <p class="muted-text">Graphs • fractals • visual simulations</p>
-                </div>
-            </div>
-        </section>
-    </main>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span>Simulation &amp; Modelling Society</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="resources.html">Resources</a>
+    <a href="join.html">Join</a>
+  </div>
+</nav>
+
+<main class="container">
+
+  <section class="hero">
+    <div class="hero-label">SMS — Est. 2024</div>
+    <h1>
+      Build. Simulate.
+      <span>Understand.</span>
+    </h1>
+    <p>Exploring science, engineering, and computation through hands-on simulation projects. No experience required — just curiosity.</p>
+    <a href="join.html" class="btn">Join the Society</a>
+
+    <!-- Decorative SVG -->
+    <svg class="hero-deco" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="160" cy="160" r="140" stroke="#63b3ff" stroke-width="0.5"/>
+      <circle cx="160" cy="160" r="100" stroke="#63b3ff" stroke-width="0.5"/>
+      <circle cx="160" cy="160" r="60" stroke="#63b3ff" stroke-width="0.5"/>
+      <circle cx="160" cy="160" r="6" fill="#63b3ff"/>
+      <line x1="20" y1="160" x2="300" y2="160" stroke="#63b3ff" stroke-width="0.5"/>
+      <line x1="160" y1="20" x2="160" y2="300" stroke="#63b3ff" stroke-width="0.5"/>
+      <line x1="61" y1="61" x2="259" y2="259" stroke="#63b3ff" stroke-width="0.5"/>
+      <line x1="259" y1="61" x2="61" y2="259" stroke="#63b3ff" stroke-width="0.5"/>
+      <circle cx="160" cy="20" r="3" fill="#63b3ff"/>
+      <circle cx="300" cy="160" r="3" fill="#63b3ff"/>
+      <circle cx="160" cy="300" r="3" fill="#63b3ff"/>
+      <circle cx="20" cy="160" r="3" fill="#63b3ff"/>
+    </svg>
+  </section>
+
+  <section>
+    <div class="section-header">
+      <div class="section-label">Areas of focus</div>
+      <h2>What We Explore</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-num">01</span>
+        <h3>Physics Simulations</h3>
+        <p>Model motion, collisions, and fluid dynamics through real-time computational physics.</p>
+        <span class="card-tag">Motion · Fluids · Forces</span>
+      </div>
+      <div class="card">
+        <span class="card-num">02</span>
+        <h3>Real-World Systems</h3>
+        <p>Simulate climate patterns, disease spread, and ecological dynamics at scale.</p>
+        <span class="card-tag">Climate · Biology · Ecology</span>
+      </div>
+      <div class="card">
+        <span class="card-num">03</span>
+        <h3>Mathematical Models</h3>
+        <p>Translate equations and probability theory into interactive computational models.</p>
+        <span class="card-tag">Equations · Probability · Chaos</span>
+      </div>
+      <div class="card">
+        <span class="card-num">04</span>
+        <h3>Simulation Engines</h3>
+        <p>Build custom physics engines, rule systems, and simulation frameworks from scratch.</p>
+        <span class="card-tag">Engines · Rules · Frameworks</span>
+      </div>
+      <div class="card">
+        <span class="card-num">05</span>
+        <h3>Scientific Visualization</h3>
+        <p>Render fractals, graph complex systems, and create visual simulations of natural phenomena.</p>
+        <span class="card-tag">Graphs · Fractals · Visuals</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <span class="corner-mark">JOIN</span>
+    <h2>Ready to Start Building?</h2>
+    <p>No prior experience required. Curiosity and willingness to learn are enough to contribute to real computational projects.</p>
+    <a href="join.html" class="btn">Apply Now</a>
+  </div>
+
+</main>
+
+<script src="js/main.js" defer></script>
 </body>
 </html>

@@ -1,76 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Projects | Simulation & Modeling Society</title>
-    <meta property="og:title" content="Simulation & Modelling Society" />
-    <meta property="og:description" content="Exploring science, engineering, and computation through simulation projects." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://synapse-dot.github.io/projects.html" />
-    <link rel="icon" type="image/png" href="images/logos/logo.png">
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Importing fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Projects | Simulation & Modelling Society</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Projects | Simulation & Modelling Society" />
+<meta property="og:description" content="Exploring science, engineering, and computation through simulation projects." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://synapse-dot.github.io/projects.html" />
+<link rel="icon" type="image/png" href="images/logos/logo.png">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <nav>
-        <div class="logo">Simulation & Modelling Society</div>
-        <div>
-            <a href="index.html">Home</a>
-            <a href="projects.html">Projects</a>
-            <a href="resources.html">Resources</a>
-            <a href="join.html">Join</a>
-        </div>
-    </nav>
-    <main class="container">
-        <section class="hero">
-            <h1>Projects</h1>
-            <p style="font-size: 1.25rem; color: var(--muted-text);">Our society is currently building its first set of computational projects. These will be developed collaboratively by members of the club.</p>
-        </section>
 
-        <section style="margin-top: 4rem;">
-            <h2>Current Status</h2>
-            <div class="card">
-                <p>We are in the early development phase. Projects listed below are the first ideas we plan to build together as a team. Join us to help design, code, and refine them.</p>
-            </div>
-        </section>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span>Simulation &amp; Modelling Society</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="projects.html" class="active">Projects</a>
+    <a href="resources.html">Resources</a>
+    <a href="join.html">Join</a>
+  </div>
+</nav>
 
-        <section style="margin-top: 4rem;">
-            <h2>Initial Project Ideas</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
-                <div class="card">
-                    <h3>Projectile Motion</h3>
-                    <p class="muted-text">Real-time simulation of trajectory with air resistance.</p>
-                </div>
-                <div class="card">
-                    <h3>Space-Time Visualizer</h3>
-                    <p class="muted-text">Gravitational lensing effects and bending of space-time.</p>
-                </div>
-                <div class="card">
-                    <h3>Game Physics Engine</h3>
-                    <p class="muted-text">Collision detection, velocities, and force vectors.</p>
-                </div>
-                <div class="card">
-                    <h3>Epidemic Model</h3>
-                    <p class="muted-text">SIR model for disease spread simulation.</p>
-                </div>
-                <div class="card">
-                    <h3>Particle System</h3>
-                    <p class="muted-text">Collision system with energy conservation principles.</p>
-                </div>
-                <div class="card">
-                    <h3>Climate Model</h3>
-                    <p class="muted-text">Basic simulation of temperature and CO2 trends.</p>
-                </div>
-            </div>
-        </section>
+<main class="container">
 
-        <section style="margin-top: 4rem;">
-            <h2>Build With Us</h2>
-            <p>These projects are not fixed — they are starting points. Members of the club will help design, build, and improve them together.</p>
-            <p>If you join the club, you will directly contribute to building these simulations from scratch.</p>
-            <a href="join.html" class="btn" style="margin-top: 1rem;">Join the Society</a>
-        </section>
-    </main>
+  <div class="page-title">
+    <div class="hero-label">Computational Work</div>
+    <h1>Projects</h1>
+    <p>Our society is in early development, building its first set of computational projects collaboratively with members.</p>
+  </div>
+
+  <div class="status-card" style="margin-top: 0;">
+    <span class="corner-mark">STATUS</span>
+    <p style="font-family: var(--font-mono); font-size: 0.88rem; color: var(--accent); margin-bottom: 0.5rem; letter-spacing: 0.05em;">Phase 01 — Early Development</p>
+    <p>The projects below are initial ideas we plan to build together as a team. Join us to help design, code, and refine them. Nothing is fixed — these are starting points for collaborative exploration.</p>
+  </div>
+
+  <section>
+    <div class="section-header">
+      <div class="section-label">Initial ideas</div>
+      <h2>Project Pipeline</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-num">P-01</span>
+        <h3>Projectile Motion</h3>
+        <p>Real-time simulation of trajectory dynamics with configurable air resistance and initial conditions.</p>
+        <span class="card-tag">Physics · Kinematics</span>
+      </div>
+      <div class="card">
+        <span class="card-num">P-02</span>
+        <h3>Space-Time Visualizer</h3>
+        <p>Visual model of gravitational lensing effects and the curvature of space-time around massive bodies.</p>
+        <span class="card-tag">Relativity · GR</span>
+      </div>
+      <div class="card">
+        <span class="card-num">P-03</span>
+        <h3>Game Physics Engine</h3>
+        <p>Collision detection system handling velocities, restitution, and force vectors for interactive environments.</p>
+        <span class="card-tag">Engines · Mechanics</span>
+      </div>
+      <div class="card">
+        <span class="card-num">P-04</span>
+        <h3>Epidemic Model</h3>
+        <p>SIR/SEIR compartmental model for simulating disease spread with adjustable transmission parameters.</p>
+        <span class="card-tag">Biology · Systems</span>
+      </div>
+      <div class="card">
+        <span class="card-num">P-05</span>
+        <h3>Particle System</h3>
+        <p>N-body collision engine with energy and momentum conservation principles across particle interactions.</p>
+        <span class="card-tag">N-body · Thermodynamics</span>
+      </div>
+      <div class="card">
+        <span class="card-num">P-06</span>
+        <h3>Climate Model</h3>
+        <p>Simplified coupled atmospheric model simulating temperature, CO₂ feedback, and long-term trends.</p>
+        <span class="card-tag">Climate · Earth Systems</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <span class="corner-mark">CONTRIBUTE</span>
+    <h2>Build With Us</h2>
+    <p>These projects are not fixed — they are starting points. If you join the society, you will directly contribute to designing, building, and improving these simulations from the ground up.</p>
+    <a href="join.html" class="btn">Join the Society</a>
+  </div>
+
+</main>
+
+<script src="js/main.js" defer></script>
 </body>
 </html>
