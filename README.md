@@ -7,3 +7,4 @@ The Official website for the Simulation & Modelling Society.
 - Project showcase
 - Educational resources
 - Official Blog: https://mcsms-org.blogspot.com/
+ 
