@@ -23,9 +23,16 @@
   {
     "id": "epidemic-model",
     "title": "Epidemic Model",
-    "description": "SIR/SEIR compartmental model for simulating disease spread with adjustable transmission parameters.",
+    "description": "Mathematical model of how diseases spread through a population with adjustable parameters.",
     "tags": ["Biology", "Systems"],
     "link": "projects/epidemic-model/"
+  },
+  {
+    "id": "intro-to-coding-sim",
+    "title": "Beginner's First Simulation",
+    "description": "A project specifically designed for members who have never coded before. Learn the basics of logic and modeling through a simple system.",
+    "tags": ["Beginner", "Onboarding"],
+    "link": "projects/intro-to-coding-sim/"
   },
   {
     "id": "particle-system",

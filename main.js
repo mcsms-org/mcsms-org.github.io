@@ -221,7 +221,7 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const phrases = [
     'Physics Simulations',
-    'Computational Fluid Dynamics',
+    'Fluid \& Air Flow',
     'Epidemic Spreading Models',
     'Space-Time Visualisation',
     'Particle Collision Systems',

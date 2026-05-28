@@ -43,9 +43,11 @@
       <ul class="toc-list">
         <li class="toc-item"><a href="#intro" class="toc-link">Intro Video</a></li>
         <li class="toc-item"><a href="#modeling-basics" class="toc-link">Modeling Basics</a></li>
+        <li class="toc-item"><a href="#terms" class="toc-link">Simple Terms</a></li>
         <li class="toc-item"><a href="#env" class="toc-link">Environment Setup</a></li>
         <li class="toc-item"><a href="#wsl" class="toc-link">WSL Guide</a></li>
-        <li class="toc-item"><a href="#ubuntu" class="toc-link">Ubuntu Guide</a></li>
+        <li class="toc-item"><a href="#fedora" class="toc-link">Fedora Guide</a></li>
+        <li class="toc-item"><a href="#endeavour" class="toc-link">EndeavourOS Guide</a></li>
       </ul>
     </aside>
 
@@ -56,9 +58,11 @@
           <optgroup label="Onboarding Path">
             <option value="#intro">Intro Video</option>
             <option value="#modeling-basics">Modeling Basics</option>
+            <option value="#terms">Simple Terms</option>
             <option value="#env">Environment Setup</option>
             <option value="#wsl">WSL Guide</option>
-            <option value="#ubuntu">Ubuntu Guide</option>
+            <option value="#fedora">Fedora Guide</option>
+            <option value="#endeavour">EndeavourOS Guide</option>
           </optgroup>
         </select>
       </div>
@@ -93,6 +97,29 @@
         </div>
         <div class="status-card" style="margin-top: 1px; border-top: none;">
           <p>Learn the basics of modeling and simulation, including the three types of models—physical, virtual, and mathematical—and the three types of simulations: live, virtual, and constructive. Discover how Simulink® is used to bring mathematical models and virtual simulations together, helping engineers apply these concepts to design and validate complex systems.</p>
+        </div>
+        <div class="tutorial-nav">
+          <button class="btn btn-prev" onclick="prevPage()">Previous</button>
+          <button class="btn" onclick="nextPage()">Next: Simple Terms</button>
+        </div>
+      </section>
+
+      <section id="terms">
+        <div class="section-header">
+          <div class="section-label">Vocabulary</div>
+          <h2>Simpler Terms for Complex Ideas</h2>
+        </div>
+        <div class="status-card">
+          <p>We use some big words, but the ideas are simple. Here is what they actually mean:</p>
+          <ul style="margin-top: 1rem; line-height: 1.6;">
+            <li><strong>Fluid & Air Flow:</strong> Simulating how liquids and gases move (like air over a wing).</li>
+            <li><strong>Disease Tracking:</strong> Using math to predict how infections spread through a group.</li>
+            <li><strong>Particle Systems:</strong> Simulating how many individual objects (like stars or atoms) interact.</li>
+            <li><strong>N-Body Simulation:</strong> Calculating the motion of many objects pulling on each other.</li>
+          </ul>
+          <p style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+            <strong>New to Coding?</strong> Don't worry. We have a <a href="/projects.html">Beginner's First Simulation</a> project specifically designed for people who have never written a line of code.
+          </p>
         </div>
         <div class="tutorial-nav">
           <button class="btn btn-prev" onclick="prevPage()">Previous</button>
@@ -134,23 +161,45 @@
         </div>
         <div class="tutorial-nav">
           <button class="btn btn-prev" onclick="prevPage()">Previous</button>
-          <button class="btn" onclick="nextPage()">Next: Ubuntu Guide</button>
+          <button class="btn" onclick="nextPage()">Next: Fedora Guide</button>
         </div>
       </section>
 
-      <section id="ubuntu">
+      <section id="fedora">
         <div class="section-header">
           <div class="section-label">Setup</div>
-          <h2>Ubuntu Desktop Install</h2>
+          <h2>Fedora Workstation</h2>
         </div>
         <div class="card">
           <span class="card-num">02</span>
-          <h3>Full Installation</h3>
-          <p>Prefer a full Linux installation? This official Ubuntu tutorial walks you through installing Ubuntu Desktop from scratch — including partitioning, bootloader setup, and first-boot configuration.</p>
-          <a href="https://documentation.ubuntu.com/desktop/en/latest/tutorial/install-ubuntu-desktop/"
+          <h3>Professional Standard</h3>
+          <p>Fedora is a powerful, modern, and reliable Linux distribution. It is the upstream for Red Hat Enterprise Linux and is widely used in scientific research and high-performance computing.</p>
+          <a href="https://docs.fedoraproject.org/en-US/fedora/latest/install-guide/"
              target="_blank" rel="noopener"
              class="resource-link">
-            <span>Ubuntu Docs: Install Ubuntu Desktop</span>
+            <span>Fedora Docs: Installation Guide</span>
+            <span class="resource-link-arrow">↗</span>
+          </a>
+        </div>
+        <div class="tutorial-nav">
+          <button class="btn btn-prev" onclick="prevPage()">Previous</button>
+          <button class="btn" onclick="nextPage()">Next: EndeavourOS Guide</button>
+        </div>
+      </section>
+
+      <section id="endeavour">
+        <div class="section-header">
+          <div class="section-label">Setup</div>
+          <h2>EndeavourOS</h2>
+        </div>
+        <div class="card">
+          <span class="card-num">03</span>
+          <h3>Architect's Choice</h3>
+          <p>EndeavourOS is a community-driven, Arch-based distribution. We recommend this for members who want deep control over their system and access to the massive Arch User Repository (AUR).</p>
+          <a href="https://endeavouros.com/installation/"
+             target="_blank" rel="noopener"
+             class="resource-link">
+            <span>EndeavourOS Docs: Installation</span>
             <span class="resource-link-arrow">↗</span>
           </a>
         </div>
