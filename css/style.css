@@ -604,6 +604,22 @@ h3 {
   pointer-events: none;
 }
 
+/* ── Page-specific Spacing Adjustments ───────────────────── */
+.page-spaced .container { padding-top: 4rem; padding-bottom: 8rem; }
+.page-spaced section { margin-top: 6rem; }
+.page-spaced .page-title { margin-bottom: 4rem; }
+.page-spaced .status-card { margin-top: 2rem; margin-bottom: 2rem; padding: 3rem; }
+.page-spaced .cta-section { margin-top: 8rem; padding: 5rem; }
+.page-spaced .card-grid { gap: 2.5rem; }
+.page-spaced .why-grid { margin-top: 4rem; gap: 2rem; border: none; background: transparent; }
+.page-spaced .why-card { border: 1px solid var(--border); padding: 3rem 2rem; }
+
+@media (max-width: 680px) {
+  .page-spaced .container { padding-top: 2rem; padding-bottom: 4rem; }
+  .page-spaced section { margin-top: 4rem; }
+  .page-spaced .cta-section { padding: 3rem 2rem; }
+}
+
 /* ── Keyframes ───────────────────────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(28px); }
