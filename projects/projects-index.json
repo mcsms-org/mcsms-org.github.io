@@ -40,12 +40,5 @@
     "description": "Simplified coupled atmospheric model simulating temperature, CO₂ feedback, and long-term trends.",
     "tags": ["Climate", "Earth Systems"],
     "link": "projects/climate-model/"
-  },
-  {
-    "id": "my-new-project",
-    "title": "My New Project",
-    "description": "This is a test simulation.",
-    "tags": ["Test", "Simulation"],
-    "link": "projects/my-new-project/"
   }
 ]
