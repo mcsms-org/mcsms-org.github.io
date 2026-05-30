@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boids Simulation Showcase</title>
+    <style>
+        body { margin: 0; background: #050810; color: white; font-family: sans-serif; overflow: hidden; }
+        canvas { display: block; }
+        #ui { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px; }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-spaced">
+    <nav>
+      <a href="/index.html" class="nav-logo">
+        <span>Simulation & Modelling Society</span>
+      </a>
+      <div class="nav-links">
+        <a href="/index.html">Home</a>
+        <a href="/about.html">About</a>
+        <a href="/projects.html">Projects</a>
+        <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener">Blog</a>
+        <a href="/get-started.html">Get Started</a>
+        <a href="/join.html">Join</a>
+      </div>
+    </nav>
+
+    <div id="ui">
+        <h2>Boids Simulation</h2>
+        <p>Emergent behavior from simple rules.</p>
+    </div>
+    <canvas id="canvas"></canvas>
+    
+    <footer style="position: absolute; bottom: 10px; right: 10px; color: #555; font-size: 0.8rem;">
+        Vibe-coded by Gemini
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let boids = Array.from({length: 80}, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: Math.random() * 4 - 2,
+            vy: Math.random() * 4 - 2
+        }));
+
+        function animate() {
+            ctx.fillStyle = 'rgba(5, 8, 16, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            boids.forEach(b => {
+                let ax = 0, ay = 0;
+                let count = 0;
+
+                boids.forEach(other => {
+                    let dx = b.x - other.x;
+                    let dy = b.y - other.y;
+                    let d = Math.sqrt(dx*dx + dy*dy);
+                    if (d > 0 && d < 100) {
+                        // 1. Separation
+                        ax += dx / (d * d);
+                        ay += dy / (d * d);
+                        // 2. Alignment
+                        ax += (other.vx - b.vx) * 0.05;
+                        ay += (other.vy - b.vy) * 0.05;
+                        // 3. Cohesion
+                        ax += (other.x - b.x) * 0.0005;
+                        ay += (other.y - b.y) * 0.0005;
+                        count++;
+                    }
+                });
+
+                b.vx += ax; b.vy += ay;
+                // Limit speed
+                let s = Math.sqrt(b.vx**2 + b.vy**2);
+                if (s > 4) { b.vx = (b.vx/s)*4; b.vy = (b.vy/s)*4; }
+                
+                b.x += b.vx; b.y += b.vy;
+                
+                // Wrap
+                if (b.x < 0) b.x = canvas.width; if (b.x > canvas.width) b.x = 0;
+                if (b.y < 0) b.y = canvas.height; if (b.y > canvas.height) b.y = 0;
+
+                // Draw as a triangle (bird shape)
+                let angle = Math.atan2(b.vy, b.vx);
+                let size = 6; 
+                ctx.save();
+                ctx.translate(b.x, b.y);
+                ctx.rotate(angle);
+                ctx.fillStyle = '#FFFFFF'; 
+                ctx.beginPath();
+                ctx.moveTo(size, 0);
+                ctx.lineTo(-size, size/2);
+                ctx.lineTo(-size, -size/2);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+    <script src="main.js" defer></script>
+</body>
+</html>
