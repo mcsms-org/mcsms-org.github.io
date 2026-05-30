@@ -27,7 +27,7 @@
 
     <div id="ui">
         <h2>Boids Simulation</h2>
-        <p>Emergent behavior from simple rules.</p>
+        <p>This is a Boids simulation: individual "birds" follow 3 simple rules to flock together.</p>
     </div>
     <canvas id="canvas"></canvas>
     
@@ -36,56 +36,67 @@
     </footer>
 
     <script>
+        // Setup: Get the drawing area (canvas) ready
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
+        // Initialize 80 'Boids' (birds) with random positions and speeds
         let boids = Array.from({length: 80}, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            vx: Math.random() * 4 - 2,
-            vy: Math.random() * 4 - 2
+            vx: Math.random() * 4 - 2, // Velocity X
+            vy: Math.random() * 4 - 2  // Velocity Y
         }));
 
+        // The animation loop that runs 60 times per second
         function animate() {
+            // Fading background creates a "trail" effect
             ctx.fillStyle = 'rgba(5, 8, 16, 0.2)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
+            // Loop through every single boid
             boids.forEach(b => {
-                let ax = 0, ay = 0;
+                let ax = 0, ay = 0; // Acceleration (the force to change direction)
                 let count = 0;
 
+                // Look at every other boid nearby
                 boids.forEach(other => {
                     let dx = b.x - other.x;
                     let dy = b.y - other.y;
-                    let d = Math.sqrt(dx*dx + dy*dy);
+                    let d = Math.sqrt(dx*dx + dy*dy); // How far is the other boid?
+                    
+                    // If they are close (within 100 pixels), apply the flocking rules
                     if (d > 0 && d < 100) {
-                        // 1. Separation
+                        // 1. Separation: Avoid crowding others
                         ax += dx / (d * d);
                         ay += dy / (d * d);
-                        // 2. Alignment
+                        // 2. Alignment: Steer in the same direction as neighbors
                         ax += (other.vx - b.vx) * 0.05;
                         ay += (other.vy - b.vy) * 0.05;
-                        // 3. Cohesion
+                        // 3. Cohesion: Move toward the center of the flock
                         ax += (other.x - b.x) * 0.0005;
                         ay += (other.y - b.y) * 0.0005;
                         count++;
                     }
                 });
 
+                // Apply the calculated forces (acceleration) to velocity
                 b.vx += ax; b.vy += ay;
-                // Limit speed
+                
+                // Speed limit (so they don't fly off too fast)
                 let s = Math.sqrt(b.vx**2 + b.vy**2);
                 if (s > 4) { b.vx = (b.vx/s)*4; b.vy = (b.vy/s)*4; }
                 
+                // Update position based on velocity
                 b.x += b.vx; b.y += b.vy;
                 
-                // Wrap
+                // Screen wrap: If boid leaves one side, reappear on the other
                 if (b.x < 0) b.x = canvas.width; if (b.x > canvas.width) b.x = 0;
                 if (b.y < 0) b.y = canvas.height; if (b.y > canvas.height) b.y = 0;
 
-                // Draw as a triangle (bird shape)
+                // Draw the bird as a triangle pointing in the direction of travel
                 let angle = Math.atan2(b.vy, b.vx);
                 let size = 6; 
                 ctx.save();
@@ -100,6 +111,7 @@
                 ctx.fill();
                 ctx.restore();
             });
+            // Tell the browser to run this again for the next frame
             requestAnimationFrame(animate);
         }
         animate();
