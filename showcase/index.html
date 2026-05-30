@@ -30,17 +30,14 @@
     <div id="ui">
         <h2>Boids Simulation</h2>
         <p>This is a Boids simulation: individual "birds" follow 3 simple rules to flock together.</p>
-        <p style="font-size: 0.8rem; color: #aaa;">
-            <strong>The Model:</strong> We use "vector math" to calculate movement. 
-            Every bird has a direction (velocity) and tries to: 
-            (1) move away from neighbors, 
-            (2) match their speed, and 
-            (3) move toward the center of the group.
-        </p>
+        <div style="font-size: 0.8rem; margin: 10px 0;">
+            <label>Separation: <input type="range" id="sep" min="0" max="0.5" step="0.01" value="0.05"></label><br>
+            <label>Alignment: <input type="range" id="ali" min="0" max="0.2" step="0.01" value="0.05"></label><br>
+            <label>Cohesion: <input type="range" id="coh" min="0" max="0.002" step="0.0001" value="0.0005"></label>
+        </div>
         <p style="font-size: 0.8rem; color: #aaa;">
             <em>Background:</em> This is based on Craig Reynolds' 1987 research. 
             <a href="/resources/reynolds-boids-1987.pdf" style="color: #0A84FF;">Download Original Paper</a> 
-            (Reading is optional!).
         </p>
     </div>
     <canvas id="canvas"></canvas>
@@ -86,29 +83,28 @@
                 boids.forEach(other => {
                     // How far is the other bird from me?
                     let dx = b.x - other.x;
-                    let dy = b.y - other.y;
-                    // Pythagorean distance calculation (a^2 + b^2 = c^2)
-                    let d = Math.sqrt(dx*dx + dy*dy); 
-                    
-                    // Only flock if the other bird is within a 100-pixel "sight" range
-                    if (d > 0 && d < 100) {
-                        // RULE 1: SEPARATION (Don't crash!)
-                        // Pushes boid away if it gets too close
-                        ax += dx / (d * d); 
-                        ay += dy / (d * d);
-                        
-                        // RULE 2: ALIGNMENT (Follow the crowd)
-                        // Try to match the average velocity (speed/direction) of neighbors.
-                        ax += (other.vx - b.vx) * 0.05;
-                        ay += (other.vy - b.vy) * 0.05;
-                        
-                        // RULE 3: COHESION (Stay in the group)
-                        // Pulls boid toward the average center of nearby neighbors.
-                        ax += (other.x - b.x) * 0.0005;
-                        ay += (other.y - b.y) * 0.0005;
-                    }
-                });
+                    boids.forEach(other => {
+                        let dx = b.x - other.x;
+                        let dy = b.y - other.y;
+                        let d = Math.sqrt(dx*dx + dy*dy); 
 
+                        if (d > 0 && d < 100) {
+                            // Apply weights from UI sliders
+                            let sepW = parseFloat(document.getElementById('sep').value);
+                            let aliW = parseFloat(document.getElementById('ali').value);
+                            let cohW = parseFloat(document.getElementById('coh').value);
+
+                            // 1. Separation
+                            ax += (dx / (d * d)) * sepW;
+                            ay += (dy / (d * d)) * sepW;
+                            // 2. Alignment
+                            ax += (other.vx - b.vx) * aliW;
+                            ay += (other.vy - b.vy) * aliW;
+                            // 3. Cohesion
+                            ax += (other.x - b.x) * cohW;
+                            ay += (other.y - b.y) * cohW;
+                        }
+                    });
                 // --- 5. PHYSICS: Update position based on rules ---
                 // Add the rules' forces (acceleration) to velocity
                 b.vx += ax; 
