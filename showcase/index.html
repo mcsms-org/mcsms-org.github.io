@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Boids Simulation Showcase</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { margin: 0; background: #050810; color: white; font-family: sans-serif; overflow: hidden; }
         canvas { display: block; width: 100vw; height: 100vh; }
-        #ui { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px; max-width: 90vw; }
+        #ui { 
+            position: absolute; top: 10px; left: 10px; 
+            background: rgba(0,0,0,0.8); padding: 15px; border-radius: 5px; 
+            max-width: 90vw; border: 1px solid #333;
+        }
+        h2 { margin-top: 0; font-size: 1.2rem; color: #0A84FF; }
+        label { display: block; margin: 8px 0; font-size: 0.9rem; }
+        input[type=range] { width: 100%; accent-color: #0A84FF; cursor: pointer; }
     </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="page-spaced">
@@ -29,127 +36,171 @@
 
     <div id="ui">
         <h2>Boids Simulation</h2>
-        <p>This is a Boids simulation: individual "birds" follow 3 simple rules to flock together.</p>
-        <div style="font-size: 0.8rem; margin: 10px 0;">
-            <label>Separation: <input type="range" id="sep" min="0" max="0.5" step="0.01" value="0.05"></label><br>
-            <label>Alignment: <input type="range" id="ali" min="0" max="0.2" step="0.01" value="0.05"></label><br>
-            <label>Cohesion: <input type="range" id="coh" min="0" max="0.002" step="0.0001" value="0.0005"></label>
-        </div>
-        <p style="font-size: 0.8rem; color: #aaa;">
-            <em>Background:</em> This is based on Craig Reynolds' 1987 research. 
-            <a href="/resources/reynolds-boids-1987.pdf" style="color: #0A84FF;">Download Original Paper</a> 
-        </p>
+        <p style="font-size: 0.8rem; margin-bottom: 15px;">Birds follow 3 simple rules to flock.</p>
+        <label>Separation: <input type="range" id="sep" min="0" max="0.5" step="0.01" value="0.05"></label>
+        <label>Alignment: <input type="range" id="ali" min="0" max="0.2" step="0.01" value="0.05"></label>
+        <label>Cohesion: <input type="range" id="coh" min="0" max="0.002" step="0.0001" value="0.0005"></label>
     </div>
     <canvas id="canvas"></canvas>
     
     <footer style="position: absolute; bottom: 10px; right: 10px; color: #555; font-size: 0.8rem;">
         Vibe-coded by Gemini
     </footer>
+    
+<script>
+    // ================================================================
+    //  BOIDS SIMULATION – Flocking behaviour from three simple rules
+    //  ----------------------------------------------------------------
+    //  This code animates 80 little triangles ("boids") that move
+    //  around the screen. Each boid only "sees" other boids that are
+    //  within 100 pixels and decides how to steer based on:
+    //    1. Separation – don't crowd neighbours
+    //    2. Alignment  – match the average direction of neighbours
+    //    3. Cohesion   – move towards the centre of the group
+    //  The rules are weighted by the sliders in the top‑left panel.
+    // ================================================================
 
-    <script>
-        // --- 1. SETUP: Prepare the drawing area ---
-        // Get access to the <canvas> element (the drawing board) in the HTML
-        const canvas = document.getElementById('canvas');
-        // 'ctx' (context) is the object we use to actually draw shapes and lines
-        const ctx = canvas.getContext('2d');
-        // Make the drawing area match the size of the browser window
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+    // --- 1. SET UP THE CANVAS (the drawing area) ---
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');          // the "pen" we draw with
+    canvas.width  = window.innerWidth;            // make canvas fill the browser window
+    canvas.height = window.innerHeight;
 
-        // --- 2. INITIALIZATION: Create the "birds" (Boids) ---
-        // A "boid" is a virtual bird. We create 80 of them.
-        // Each boid has a position (x, y) and velocity (vx, vy - how fast/which way it is going).
-        let boids = Array.from({length: 80}, () => ({
-            x: Math.random() * canvas.width,    // Random starting X position
-            y: Math.random() * canvas.height,   // Random starting Y position
-            vx: Math.random() * 4 - 2,          // Random starting velocity X (-2 to 2)
-            vy: Math.random() * 4 - 2           // Random starting velocity Y (-2 to 2)
-        }));
+    // --- 2. CREATE THE INITIAL FLOCK ---
+    // We build an array of 80 boids.
+    // Each boid is an object with a position (x, y) and a velocity (vx, vy).
+    // Velocity tells us how many pixels the boid moves in the x and y
+    // directions each frame. We give each boid a random starting position
+    // somewhere on the screen, and a random velocity between -2 and 2
+    // (so they aren't all just sitting still).
+    let boids = Array.from({length: 80}, () => ({
+        x:  Math.random() * canvas.width,       // random x somewhere across the canvas
+        y:  Math.random() * canvas.height,      // random y somewhere down the canvas
+        vx: Math.random() * 4 - 2,              // horizontal speed, range -2..2
+        vy: Math.random() * 4 - 2               // vertical speed, range -2..2
+    }));
 
-        // --- 3. ANIMATION: This function runs 60 times every second ---
-        // It clears the frame and draws everything again to create motion.
-        function animate() {
-            // Paint a semi-transparent black over the screen to create the "fading" motion trail
-            ctx.fillStyle = 'rgba(5, 8, 16, 0.2)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Loop through every single bird in our list
-            boids.forEach(b => {
-                // Acceleration is how much the velocity changes. We start at 0 each frame.
-                let ax = 0, ay = 0; 
-                
-                // --- 4. FLOCKING RULES: Look at neighbors to decide where to go ---
-                // Every bird looks at every other bird to see who is nearby.
-                boids.forEach(other => {
-                    // How far is the other bird from me?
-                    let dx = b.x - other.x;
-                    boids.forEach(other => {
-                        let dx = b.x - other.x;
-                        let dy = b.y - other.y;
-                        let d = Math.sqrt(dx*dx + dy*dy); 
+    // --- 3. THE ANIMATION LOOP (runs about 60 times per second) ---
+    function animate() {
+        // --- 3a. Draw a fading background ---
+        // Instead of clearing the screen completely, we paint a semi‑transparent
+        // dark rectangle. This leaves a slight trail behind each boid, giving a
+        // smooth motion‑blur effect.
+        ctx.fillStyle = 'rgba(5, 8, 16, 0.2)';   // very dark blue, 20% opaque
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                        if (d > 0 && d < 100) {
-                            // Apply weights from UI sliders
-                            let sepW = parseFloat(document.getElementById('sep').value);
-                            let aliW = parseFloat(document.getElementById('ali').value);
-                            let cohW = parseFloat(document.getElementById('coh').value);
+        // --- 3b. Update every boid ---
+        boids.forEach(b => {
+            // We'll collect the total steering force (acceleration) for this boid.
+            // Think of acceleration as "how much we want to change velocity".
+            let ax = 0;   // horizontal steering
+            let ay = 0;   // vertical steering
 
-                            // 1. Separation
-                            ax += (dx / (d * d)) * sepW;
-                            ay += (dy / (d * d)) * sepW;
-                            // 2. Alignment
-                            ax += (other.vx - b.vx) * aliW;
-                            ay += (other.vy - b.vy) * aliW;
-                            // 3. Cohesion
-                            ax += (other.x - b.x) * cohW;
-                            ay += (other.y - b.y) * cohW;
-                        }
-                    });
-                // --- 5. PHYSICS: Update position based on rules ---
-                // Add the rules' forces (acceleration) to velocity
-                b.vx += ax; 
-                b.vy += ay;
-                
-                // Speed Limit: Ensure birds don't get infinitely fast
-                let s = Math.sqrt(b.vx**2 + b.vy**2);
-                if (s > 4) { 
-                    b.vx = (b.vx/s)*4; // Scale X velocity down to 4
-                    b.vy = (b.vy/s)*4; // Scale Y velocity down to 4
+            // --- 3c. Look at every OTHER boid to apply the three rules ---
+            boids.forEach(other => {
+                // Calculate the vector from the current boid (b) to the "other" boid.
+                let dx = b.x - other.x;   // difference in x (how far apart left‑right)
+                let dy = b.y - other.y;   // difference in y (how far apart up‑down)
+                // Euclidean distance between the two boids (Pythagoras' theorem).
+                let d  = Math.sqrt(dx*dx + dy*dy);
+
+                // Only consider other boids that are within 100 pixels.
+                // Also ignore the boid itself (distance == 0) because comparing a
+                // boid with itself would cause division‑by‑zero later.
+                if (d > 0 && d < 100) {
+                    // Read the current slider values (these can be changed by the
+                    // user while the simulation is running).
+                    let sepW = parseFloat(document.getElementById('sep').value); // separation weight
+                    let aliW = parseFloat(document.getElementById('ali').value); // alignment weight
+                    let cohW = parseFloat(document.getElementById('coh').value); // cohesion weight
+
+                    // ----- RULE 1: SEPARATION (avoid crowding) -----
+                    // We want to steer AWAY from neighbours that are too close.
+                    // The closer the neighbour, the stronger the push.
+                    // (dx / (d*d)) gives a vector pointing away from the other boid.
+                    // Its length is 1/d, so close neighbours (small d) produce
+                    // a large push. We multiply by the separation weight to control
+                    // how strongly the boids avoid each other.
+                    ax += (dx / (d * d)) * sepW;
+                    ay += (dy / (d * d)) * sepW;
+
+                    // ----- RULE 2: ALIGNMENT (match neighbours' direction) -----
+                    // We steer to make our velocity match the average velocity of
+                    // nearby boids. (other.vx - b.vx) tells us how different the
+                    // other boid's horizontal speed is. Adding a fraction of this
+                    // difference gradually aligns us with the group.
+                    ax += (other.vx - b.vx) * aliW;
+                    ay += (other.vy - b.vy) * aliW;
+
+                    // ----- RULE 3: COHESION (stay with the group) -----
+                    // We steer TOWARDS the centre of mass of the local flock.
+                    // (other.x - b.x) is a vector pointing from us to the other
+                    // boid. Adding these up (and multiplying by a tiny weight)
+                    // makes us move towards where the neighbours are.
+                    ax += (other.x - b.x) * cohW;
+                    ay += (other.y - b.y) * cohW;
                 }
-                
-                // Update position: add velocity to the current X and Y
-                b.x += b.vx; 
-                b.y += b.vy;
-                
-                // Screen Wrap: If a bird goes off the screen, appear on the opposite side
-                if (b.x < 0) b.x = canvas.width;    // Off left? Move to right
-                if (b.x > canvas.width) b.x = 0;    // Off right? Move to left
-                if (b.y < 0) b.y = canvas.height;   // Off top? Move to bottom
-                if (b.y > canvas.height) b.y = 0;   // Off bottom? Move to top
+            }); // end inner loop over all other boids
 
-                // --- 6. RENDERING: Draw the bird as a triangle ---
-                // Calculate the angle based on which way the bird is flying
-                let angle = Math.atan2(b.vy, b.vx);
-                let size = 6; 
-                ctx.save();
-                ctx.translate(b.x, b.y); // Move origin to bird's position
-                ctx.rotate(angle);       // Point in direction of travel
-                ctx.fillStyle = '#FFFFFF'; // Color the bird white
-                ctx.beginPath();
-                ctx.moveTo(size, 0);       // Triangle nose
-                ctx.lineTo(-size, size/2); // Triangle bottom-left
-                ctx.lineTo(-size, -size/2);// Triangle bottom-right
-                ctx.closePath();           // Connect back to nose
-                ctx.fill();
-                ctx.restore(); // Undo the translation/rotation for the next bird
-            });
-            // Loop: Tell the browser to call this animate function again
-            requestAnimationFrame(animate);
-        }
-        
-        // --- 7. START: Trigger the animation loop ---
-        animate();
-    </script>
-    <script src="main.js" defer></script>
+            // --- 3d. Apply the accumulated steering to the velocity ---
+            b.vx += ax;
+            b.vy += ay;
+
+            // --- 3e. Limit the speed ---
+            // Without a speed limit, boids could zoom off infinitely.
+            // We calculate the current speed (magnitude of the velocity vector)
+            // and if it's greater than our maximum (4 pixels/frame), we scale
+            // the velocity down so its length is exactly 4.
+            let speed = Math.sqrt(b.vx**2 + b.vy**2);
+            if (speed > 4) {
+                b.vx = (b.vx / speed) * 4;   // keep the same direction, but cap the speed
+                b.vy = (b.vy / speed) * 4;
+            }
+
+            // --- 3f. Move the boid ---
+            b.x += b.vx;
+            b.y += b.vy;
+
+            // --- 3g. Wrap around the edges (toroidal world) ---
+            // If a boid flies off one side of the screen, it reappears on the
+            // opposite side. This keeps the flock inside the visible area.
+            if (b.x < 0) b.x = canvas.width;
+            if (b.x > canvas.width) b.x = 0;
+            if (b.y < 0) b.y = canvas.height;
+            if (b.y > canvas.height) b.y = 0;
+
+            // --- 3h. DRAW the boid as a small triangle ---
+            // The triangle points in the direction the boid is moving.
+            // We use a tiny bit of trigonometry to find the heading angle.
+            let angle = Math.atan2(b.vy, b.vx);  // angle from the positive x‑axis
+            let size  = 6;                       // how big the triangle is
+
+            ctx.save();                          // remember the current drawing state
+            ctx.translate(b.x, b.y);             // move origin to the boid's position
+            ctx.rotate(angle);                   // rotate so the triangle points forward
+
+            // Draw a white triangle with its tip at (size, 0) pointing right.
+            // After rotation, "right" becomes the boid's heading.
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.moveTo( size,  0      );         // tip of the triangle
+            ctx.lineTo(-size,  size/2);          // bottom‑left corner
+            ctx.lineTo(-size, -size/2);          // top‑left corner
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.restore();                       // undo the translation & rotation
+        }); // end outer loop over all boids
+
+        // --- 3i. Request the next frame ---
+        // This tells the browser to call animate() again when it's ready to
+        // draw the next frame (usually 60 times per second).
+        requestAnimationFrame(animate);
+    }
+
+    // --- 4. START THE SIMULATION ---
+    animate();
+</script>
+
 </body>
 </html>
