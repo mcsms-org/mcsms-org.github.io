@@ -36,67 +36,77 @@
     </footer>
 
     <script>
-        // Setup: Get the drawing area (canvas) ready
+        // --- 1. SETUP: Prepare the drawing area ---
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
+        // Make the canvas fill the whole browser window
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        // Initialize 80 'Boids' (birds) with random positions and speeds
+        // --- 2. INITIALIZATION: Create the "birds" (Boids) ---
+        // A boid is just an object with a position (x, y) and speed (vx, vy).
         let boids = Array.from({length: 80}, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            vx: Math.random() * 4 - 2, // Velocity X
-            vy: Math.random() * 4 - 2  // Velocity Y
+            vx: Math.random() * 4 - 2, // Velocity (speed and direction)
+            vy: Math.random() * 4 - 2
         }));
 
-        // The animation loop that runs 60 times per second
+        // --- 3. ANIMATION: This function runs 60 times every second ---
         function animate() {
-            // Fading background creates a "trail" effect
+            // Paint a semi-transparent black over the screen to create the "fading" motion trail
             ctx.fillStyle = 'rgba(5, 8, 16, 0.2)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Loop through every single boid
+            // Loop through every bird one by one
             boids.forEach(b => {
-                let ax = 0, ay = 0; // Acceleration (the force to change direction)
-                let count = 0;
-
-                // Look at every other boid nearby
+                let ax = 0, ay = 0; // Acceleration: how much we change speed
+                
+                // --- 4. FLOCKING RULES: Look at neighbors to decide where to go ---
                 boids.forEach(other => {
+                    // Calculate distance using simple Pythagorean theorem (a^2 + b^2 = c^2)
                     let dx = b.x - other.x;
                     let dy = b.y - other.y;
-                    let d = Math.sqrt(dx*dx + dy*dy); // How far is the other boid?
+                    let d = Math.sqrt(dx*dx + dy*dy);
                     
-                    // If they are close (within 100 pixels), apply the flocking rules
+                    // Only care about neighbors within 100 pixels
                     if (d > 0 && d < 100) {
-                        // 1. Separation: Avoid crowding others
-                        ax += dx / (d * d);
+                        // RULE 1: Separation (Avoid hitting neighbors)
+                        // Pushes boid away if it gets too close
+                        ax += dx / (d * d); 
                         ay += dy / (d * d);
-                        // 2. Alignment: Steer in the same direction as neighbors
+                        
+                        // RULE 2: Alignment (Match speed of neighbors)
+                        // Slowly adjusts velocity to match nearby birds
                         ax += (other.vx - b.vx) * 0.05;
                         ay += (other.vy - b.vy) * 0.05;
-                        // 3. Cohesion: Move toward the center of the flock
+                        
+                        // RULE 3: Cohesion (Stay with the group)
+                        // Pulls boid toward the average center of nearby neighbors
                         ax += (other.x - b.x) * 0.0005;
                         ay += (other.y - b.y) * 0.0005;
-                        count++;
                     }
                 });
 
-                // Apply the calculated forces (acceleration) to velocity
-                b.vx += ax; b.vy += ay;
+                // --- 5. PHYSICS: Update position based on rules ---
+                // Apply the total forces (acceleration) to velocity
+                b.vx += ax; 
+                b.vy += ay;
                 
-                // Speed limit (so they don't fly off too fast)
+                // Speed Limit: Don't let them fly too fast
                 let s = Math.sqrt(b.vx**2 + b.vy**2);
                 if (s > 4) { b.vx = (b.vx/s)*4; b.vy = (b.vy/s)*4; }
                 
-                // Update position based on velocity
-                b.x += b.vx; b.y += b.vy;
+                // Update position
+                b.x += b.vx; 
+                b.y += b.vy;
                 
-                // Screen wrap: If boid leaves one side, reappear on the other
+                // Wrap around: If they hit the edge, appear on the opposite side
                 if (b.x < 0) b.x = canvas.width; if (b.x > canvas.width) b.x = 0;
                 if (b.y < 0) b.y = canvas.height; if (b.y > canvas.height) b.y = 0;
 
-                // Draw the bird as a triangle pointing in the direction of travel
+                // --- 6. RENDERING: Draw the bird (triangle) ---
+                // Calculate which way it's facing based on velocity
                 let angle = Math.atan2(b.vy, b.vx);
                 let size = 6; 
                 ctx.save();
@@ -104,16 +114,18 @@
                 ctx.rotate(angle);
                 ctx.fillStyle = '#FFFFFF'; 
                 ctx.beginPath();
-                ctx.moveTo(size, 0);
-                ctx.lineTo(-size, size/2);
-                ctx.lineTo(-size, -size/2);
+                ctx.moveTo(size, 0);       // Nose
+                ctx.lineTo(-size, size/2); // Back left
+                ctx.lineTo(-size, -size/2);// Back right
                 ctx.closePath();
                 ctx.fill();
                 ctx.restore();
             });
-            // Tell the browser to run this again for the next frame
+            // Loop! Call this function again for the next frame
             requestAnimationFrame(animate);
         }
+        
+        // Start the engine
         animate();
     </script>
     <script src="main.js" defer></script>
