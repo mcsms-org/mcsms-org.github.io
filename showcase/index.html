@@ -6,7 +6,7 @@
     <style>
         body { margin: 0; background: #050810; color: white; font-family: sans-serif; overflow: hidden; }
         canvas { display: block; }
-        #ui { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px; }
+        #ui { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px; max-width: 300px; }
     </style>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -22,12 +22,25 @@
         <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener">Blog</a>
         <a href="/get-started.html">Get Started</a>
         <a href="/join.html">Join</a>
+        <a href="/showcase/index.html" class="active">Demo</a>
       </div>
     </nav>
 
     <div id="ui">
         <h2>Boids Simulation</h2>
         <p>This is a Boids simulation: individual "birds" follow 3 simple rules to flock together.</p>
+        <p style="font-size: 0.8rem; color: #aaa;">
+            <strong>The Model:</strong> We use "vector math" to calculate movement. 
+            Every bird has a direction (velocity) and tries to: 
+            (1) move away from neighbors, 
+            (2) match their speed, and 
+            (3) move toward the center of the group.
+        </p>
+        <p style="font-size: 0.8rem; color: #aaa;">
+            <em>Background:</em> This is based on Craig Reynolds' 1987 research. 
+            <a href="/resources/reynolds-boids-1987.pdf" style="color: #0A84FF;">Download Original Paper</a> 
+            (Reading is optional!).
+        </p>
     </div>
     <canvas id="canvas"></canvas>
     
@@ -49,17 +62,16 @@
         // A "boid" is a virtual bird. We create 80 of them.
         // Each boid has a position (x, y) and velocity (vx, vy - how fast/which way it is going).
         let boids = Array.from({length: 80}, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: Math.random() * 4 - 2, 
-            vy: Math.random() * 4 - 2
+            x: Math.random() * canvas.width,    // Random starting X position
+            y: Math.random() * canvas.height,   // Random starting Y position
+            vx: Math.random() * 4 - 2,          // Random starting velocity X (-2 to 2)
+            vy: Math.random() * 4 - 2           // Random starting velocity Y (-2 to 2)
         }));
 
         // --- 3. ANIMATION: This function runs 60 times every second ---
         // It clears the frame and draws everything again to create motion.
         function animate() {
-            // We draw a semi-transparent black rectangle over the whole screen each frame.
-            // This leaves a "trail" of the old positions instead of instantly erasing them.
+            // Paint a semi-transparent black over the screen to create the "fading" motion trail
             ctx.fillStyle = 'rgba(5, 8, 16, 0.2)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
@@ -74,14 +86,13 @@
                     // How far is the other bird from me?
                     let dx = b.x - other.x;
                     let dy = b.y - other.y;
-                    // Pythagorean distance calculation
+                    // Pythagorean distance calculation (a^2 + b^2 = c^2)
                     let d = Math.sqrt(dx*dx + dy*dy); 
                     
                     // Only flock if the other bird is within a 100-pixel "sight" range
                     if (d > 0 && d < 100) {
                         // RULE 1: SEPARATION (Don't crash!)
-                        // If too close to a neighbor, add force to push away.
-                        // The closer they are (small d), the stronger the push.
+                        // Pushes boid away if it gets too close
                         ax += dx / (d * d); 
                         ay += dy / (d * d);
                         
@@ -91,28 +102,33 @@
                         ay += (other.vy - b.vy) * 0.05;
                         
                         // RULE 3: COHESION (Stay in the group)
-                        // Gently pull towards the average position of all nearby neighbors.
+                        // Pulls boid toward the average center of nearby neighbors.
                         ax += (other.x - b.x) * 0.0005;
                         ay += (other.y - b.y) * 0.0005;
                     }
                 });
 
-                // --- 5. PHYSICS: Apply logic to movement ---
-                // Add the rules' forces to the velocity
+                // --- 5. PHYSICS: Update position based on rules ---
+                // Add the rules' forces (acceleration) to velocity
                 b.vx += ax; 
                 b.vy += ay;
                 
                 // Speed Limit: Ensure birds don't get infinitely fast
                 let s = Math.sqrt(b.vx**2 + b.vy**2);
-                if (s > 4) { b.vx = (b.vx/s)*4; b.vy = (b.vy/s)*4; }
+                if (s > 4) { 
+                    b.vx = (b.vx/s)*4; // Scale X velocity down to 4
+                    b.vy = (b.vy/s)*4; // Scale Y velocity down to 4
+                }
                 
-                // Move the position using the current velocity
+                // Update position: add velocity to the current X and Y
                 b.x += b.vx; 
                 b.y += b.vy;
                 
-                // Screen Wrap: If a bird goes off the screen, put it back on the other side
-                if (b.x < 0) b.x = canvas.width; if (b.x > canvas.width) b.x = 0;
-                if (b.y < 0) b.y = canvas.height; if (b.y > canvas.height) b.y = 0;
+                // Screen Wrap: If a bird goes off the screen, appear on the opposite side
+                if (b.x < 0) b.x = canvas.width;    // Off left? Move to right
+                if (b.x > canvas.width) b.x = 0;    // Off right? Move to left
+                if (b.y < 0) b.y = canvas.height;   // Off top? Move to bottom
+                if (b.y > canvas.height) b.y = 0;   // Off bottom? Move to top
 
                 // --- 6. RENDERING: Draw the bird as a triangle ---
                 // Calculate the angle based on which way the bird is flying
@@ -126,7 +142,7 @@
                 ctx.moveTo(size, 0);       // Triangle nose
                 ctx.lineTo(-size, size/2); // Triangle bottom-left
                 ctx.lineTo(-size, -size/2);// Triangle bottom-right
-                ctx.closePath();
+                ctx.closePath();           // Connect back to nose
                 ctx.fill();
                 ctx.restore(); // Undo the translation/rotation for the next bird
             });
