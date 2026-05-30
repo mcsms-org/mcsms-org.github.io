@@ -37,95 +37,104 @@
 
     <script>
         // --- 1. SETUP: Prepare the drawing area ---
+        // Get access to the <canvas> element (the drawing board) in the HTML
         const canvas = document.getElementById('canvas');
+        // 'ctx' (context) is the object we use to actually draw shapes and lines
         const ctx = canvas.getContext('2d');
-        // Make the canvas fill the whole browser window
+        // Make the drawing area match the size of the browser window
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
         // --- 2. INITIALIZATION: Create the "birds" (Boids) ---
-        // A boid is just an object with a position (x, y) and speed (vx, vy).
+        // A "boid" is a virtual bird. We create 80 of them.
+        // Each boid has a position (x, y) and velocity (vx, vy - how fast/which way it is going).
         let boids = Array.from({length: 80}, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            vx: Math.random() * 4 - 2, // Velocity (speed and direction)
+            vx: Math.random() * 4 - 2, 
             vy: Math.random() * 4 - 2
         }));
 
         // --- 3. ANIMATION: This function runs 60 times every second ---
+        // It clears the frame and draws everything again to create motion.
         function animate() {
-            // Paint a semi-transparent black over the screen to create the "fading" motion trail
+            // We draw a semi-transparent black rectangle over the whole screen each frame.
+            // This leaves a "trail" of the old positions instead of instantly erasing them.
             ctx.fillStyle = 'rgba(5, 8, 16, 0.2)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Loop through every bird one by one
+            // Loop through every single bird in our list
             boids.forEach(b => {
-                let ax = 0, ay = 0; // Acceleration: how much we change speed
+                // Acceleration is how much the velocity changes. We start at 0 each frame.
+                let ax = 0, ay = 0; 
                 
                 // --- 4. FLOCKING RULES: Look at neighbors to decide where to go ---
+                // Every bird looks at every other bird to see who is nearby.
                 boids.forEach(other => {
-                    // Calculate distance using simple Pythagorean theorem (a^2 + b^2 = c^2)
+                    // How far is the other bird from me?
                     let dx = b.x - other.x;
                     let dy = b.y - other.y;
-                    let d = Math.sqrt(dx*dx + dy*dy);
+                    // Pythagorean distance calculation
+                    let d = Math.sqrt(dx*dx + dy*dy); 
                     
-                    // Only care about neighbors within 100 pixels
+                    // Only flock if the other bird is within a 100-pixel "sight" range
                     if (d > 0 && d < 100) {
-                        // RULE 1: Separation (Avoid hitting neighbors)
-                        // Pushes boid away if it gets too close
+                        // RULE 1: SEPARATION (Don't crash!)
+                        // If too close to a neighbor, add force to push away.
+                        // The closer they are (small d), the stronger the push.
                         ax += dx / (d * d); 
                         ay += dy / (d * d);
                         
-                        // RULE 2: Alignment (Match speed of neighbors)
-                        // Slowly adjusts velocity to match nearby birds
+                        // RULE 2: ALIGNMENT (Follow the crowd)
+                        // Try to match the average velocity (speed/direction) of neighbors.
                         ax += (other.vx - b.vx) * 0.05;
                         ay += (other.vy - b.vy) * 0.05;
                         
-                        // RULE 3: Cohesion (Stay with the group)
-                        // Pulls boid toward the average center of nearby neighbors
+                        // RULE 3: COHESION (Stay in the group)
+                        // Gently pull towards the average position of all nearby neighbors.
                         ax += (other.x - b.x) * 0.0005;
                         ay += (other.y - b.y) * 0.0005;
                     }
                 });
 
-                // --- 5. PHYSICS: Update position based on rules ---
-                // Apply the total forces (acceleration) to velocity
+                // --- 5. PHYSICS: Apply logic to movement ---
+                // Add the rules' forces to the velocity
                 b.vx += ax; 
                 b.vy += ay;
                 
-                // Speed Limit: Don't let them fly too fast
+                // Speed Limit: Ensure birds don't get infinitely fast
                 let s = Math.sqrt(b.vx**2 + b.vy**2);
                 if (s > 4) { b.vx = (b.vx/s)*4; b.vy = (b.vy/s)*4; }
                 
-                // Update position
+                // Move the position using the current velocity
                 b.x += b.vx; 
                 b.y += b.vy;
                 
-                // Wrap around: If they hit the edge, appear on the opposite side
+                // Screen Wrap: If a bird goes off the screen, put it back on the other side
                 if (b.x < 0) b.x = canvas.width; if (b.x > canvas.width) b.x = 0;
                 if (b.y < 0) b.y = canvas.height; if (b.y > canvas.height) b.y = 0;
 
-                // --- 6. RENDERING: Draw the bird (triangle) ---
-                // Calculate which way it's facing based on velocity
+                // --- 6. RENDERING: Draw the bird as a triangle ---
+                // Calculate the angle based on which way the bird is flying
                 let angle = Math.atan2(b.vy, b.vx);
                 let size = 6; 
                 ctx.save();
-                ctx.translate(b.x, b.y);
-                ctx.rotate(angle);
-                ctx.fillStyle = '#FFFFFF'; 
+                ctx.translate(b.x, b.y); // Move origin to bird's position
+                ctx.rotate(angle);       // Point in direction of travel
+                ctx.fillStyle = '#FFFFFF'; // Color the bird white
                 ctx.beginPath();
-                ctx.moveTo(size, 0);       // Nose
-                ctx.lineTo(-size, size/2); // Back left
-                ctx.lineTo(-size, -size/2);// Back right
+                ctx.moveTo(size, 0);       // Triangle nose
+                ctx.lineTo(-size, size/2); // Triangle bottom-left
+                ctx.lineTo(-size, -size/2);// Triangle bottom-right
                 ctx.closePath();
                 ctx.fill();
-                ctx.restore();
+                ctx.restore(); // Undo the translation/rotation for the next bird
             });
-            // Loop! Call this function again for the next frame
+            // Loop: Tell the browser to call this animate function again
             requestAnimationFrame(animate);
         }
         
-        // Start the engine
+        // --- 7. START: Trigger the animation loop ---
         animate();
     </script>
     <script src="main.js" defer></script>
