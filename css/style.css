@@ -952,3 +952,122 @@ nav {
   border-radius: 4px;
 }
 
+
+/* Members page */
+.members-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 2rem;
+  align-items: end;
+}
+
+.members-hero-panel {
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(135deg, rgba(99, 179, 255, 0.08), transparent 55%),
+    var(--surface);
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.members-hero-panel span {
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+  background: rgba(5, 8, 16, 0.35);
+}
+
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.member-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.member-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0.75;
+}
+
+.member-card:hover {
+  background: var(--surface-2);
+  border-color: var(--border-bright);
+  transform: translateY(-4px);
+}
+
+.member-avatar {
+  width: 64px;
+  height: 64px;
+  background: var(--accent-dim);
+  border: 1px solid var(--border-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+
+.member-role {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.member-bio {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 760px) {
+  .members-hero {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .members-hero-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.committee-grid .member-card {
+  min-height: 190px;
+}
+
+.committee-grid .member-card h3 {
+  font-size: 1.12rem;
+  line-height: 1.45;
+  word-break: normal;
+}
+
+@media (max-width: 420px) {
+  .members-hero-panel {
+    grid-template-columns: 1fr;
+  }
+}

@@ -16,10 +16,16 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ── 1. ACTIVE NAV LINK ─────────────────────────────────── */
 (function () {
-  const page = location.pathname.split('/').pop() || 'index.html';
+  const currentPath = location.pathname === '/' ? '/index.html' : location.pathname;
   document.querySelectorAll('.nav-links a').forEach(link => {
     const href = link.getAttribute('href');
-    link.classList.toggle('active', href === page || (page === '' && href === 'index.html'));
+    if (!href) return;
+
+    const url = new URL(href, location.origin);
+    if (url.origin !== location.origin) return;
+
+    const linkPath = url.pathname === '/' ? '/index.html' : url.pathname;
+    link.classList.toggle('active', linkPath === currentPath);
   });
 })();
 
