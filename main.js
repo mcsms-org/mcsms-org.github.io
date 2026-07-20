@@ -221,7 +221,7 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hero = document.querySelector('.hero');
   if (!hero || REDUCED) return;
   const label = hero.querySelector('.hero-label');
-  if (!label || !label.textContent.includes('SMS')) return;
+  if (!label || !label.textContent.includes('MCSMS')) return;
   const p = hero.querySelector('p');
   if (!p) return;
 
@@ -237,8 +237,7 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const wrap = document.createElement('div');
   wrap.className = 'typewriter-wrap';
-  wrap.innerHTML = '<span class="typewriter-prefix">Currently exploring: </span>' +
-    '<span class="typewriter-text"></span>' +
+  wrap.innerHTML = '<span class="typewriter-text"></span>' +
     '<span class="typewriter-cursor">|</span>';
   p.insertAdjacentElement('afterend', wrap);
 

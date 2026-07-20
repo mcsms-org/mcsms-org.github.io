@@ -22,9 +22,7 @@
     <a href="/about.html">About</a>
     <a href="/projects.html" class="active">Projects</a>
     <a href="/members.html">Team</a>
-    <a href="/showcase/index.html">Demo</a>
     <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener">Blog</a>
-    <a href="/get-started.html">Get Started</a>
     <a href="/join.html">Join</a>
   </div>
 </nav>
@@ -37,19 +35,10 @@
     <p>Our society is in early development, building its first set of computational projects collaboratively with members.</p>
   </div>
 
-  <div class="status-card" style="margin-top: 0;">
-    <span class="corner-mark">STATUS</span>
-    <p style="font-family: var(--font-mono); font-size: 0.88rem; color: var(--accent); margin-bottom: 0.5rem; letter-spacing: 0.05em;">Phase 01 — Early Development</p>
-    <p>The projects below are initial ideas we plan to build together as a team. Join us to help design, code, and refine them. Nothing is fixed — these are starting points for collaborative exploration.</p>
+  <div class="status-card" style="margin-top: 2rem;">
+    <span class="corner-mark">GITHUB</span>
+    <p>For more information about our projects visit: <a href="https://github.com/mcsms-org" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(99, 179, 255, 0.4); font-family: var(--font-mono); padding-bottom: 2px; transition: border-color 0.2s;">https://github.com/mcsms-org</a></p>
   </div>
-
-  <section style="margin-top: 5rem;">
-    <div class="section-header">
-      <div class="section-label">Initial ideas</div>
-      <h2>Project Pipeline</h2>
-    </div>
-    <div id="project-grid" class="card-grid" style="margin-bottom: 5rem;"></div>
-  </section>
 
   <div class="cta-section">
     <span class="corner-mark">CONTRIBUTE</span>
@@ -66,78 +55,13 @@
     <div class="footer-links">
       <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener">Blog</a>
       <a href="https://github.com/mcsms-org" target="_blank" rel="noopener">GitHub</a>
-      <a href="mailto:felixx.a.wayne32@gmail.com">Email</a>
+      <a href="mailto:simulationandmodellingsociety@gmail.com">Email</a>
       <a href="https://wa.me/94710638587" target="_blank" rel="noopener">WhatsApp 1</a>
       <a href="https://wa.me/94776526043" target="_blank" rel="noopener">WhatsApp 2</a>
     </div>
   </div>
 </footer>
 
-<script>
-  const grid = document.getElementById('project-grid');
-
-  // Loading state
-  grid.innerHTML = `
-    <div class="status-card">
-      <p style="font-family: var(--font-mono); color: var(--muted);">
-        Loading projects...
-      </p>
-    </div>
-  `;
-
-  fetch('projects/projects-index.json')
-    .then(response => {
-      if (!response.ok) throw new Error('Failed to load project index');
-      return response.json();
-    })
-    .then(data => {
-      grid.innerHTML = '';
-
-      if (!data.length) {
-        grid.innerHTML = `
-          <div class="status-card">
-            <p style="font-family: var(--font-mono); color: var(--muted);">
-              No projects found yet.
-            </p>
-          </div>
-        `;
-        return;
-      }
-
-      data.forEach((project, index) => {
-        const card = document.createElement('a');
-        card.href = project.link;
-        card.className = 'card';
-        card.style.textDecoration = 'none';
-
-        card.innerHTML = `
-          <span class="card-num">
-            P-${String(index + 1).padStart(2, '0')}
-          </span>
-
-          <h3>${project.title}</h3>
-          <p>${project.description}</p>
-
-          <span class="card-tag">
-            ${project.tags.join(' · ')}
-          </span>
-        `;
-
-        grid.appendChild(card);
-      });
-    })
-    .catch(error => {
-      console.error(error);
-
-      grid.innerHTML = `
-        <div class="status-card">
-          <p style="font-family: var(--font-mono); color: #ff6b6b;">
-            Failed to load projects. Check projects-index.json
-          </p>
-        </div>
-      `;
-    });
-</script>
 <script src="/main.js" defer></script>
 </body>
 </html>
