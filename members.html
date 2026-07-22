@@ -1,120 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Committee | Simulation & Modelling Society</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:title" content="Committee | Simulation & Modelling Society" />
-<meta property="og:description" content="Meet the committee and team leading the Simulation & Modelling Society." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://mcsms-org.github.io/members.html" />
-<link rel="icon" type="image/png" href="/images/logos/logo.png">
-<link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Committee &amp; Team | Simulation &amp; Modelling Society (MCSMS)</title>
+  <meta name="description" content="Meet the student committee and leadership team guiding the Simulation & Modelling Society at Maliyadeva College.">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Committee | Simulation &amp; Modelling Society">
+  <meta property="og:description" content="Meet the committee and team leading the Simulation & Modelling Society at Maliyadeva College.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mcsms-org.github.io/members.html">
+  <meta property="og:image" content="https://mcsms-org.github.io/images/logos/logo.png">
+
+  <!-- Twitter Card Data -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Committee | Simulation &amp; Modelling Society">
+  <meta name="twitter:description" content="Meet the committee and team leading the Simulation & Modelling Society at Maliyadeva College.">
+  <meta name="twitter:image" content="https://mcsms-org.github.io/images/logos/logo.png">
+
+  <!-- Favicon and Styles -->
+  <link rel="icon" type="image/png" href="/images/logos/logo.png">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Embedded Component Styles -->
+  <style>
+    /* Consistent spacing between all major sections */
+    main.container > section,
+    .cta-section {
+      margin-top: 4.5rem;
+    }
+
+    /* Prevent hero bottom spacing overlap */
+    .page-title {
+      margin-bottom: 0;
+      padding-bottom: 1.5rem;
+    }
+
+    .page-title p {
+      margin-bottom: 0;
+    }
+
+    /* --- New 'How the Team Works' Layout (Matches GitHub Banner Style) --- */
+    .operations-showcase {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2rem;
+      align-items: center;
+      background: rgba(120, 120, 120, 0.05);
+      border: 1px solid rgba(120, 120, 120, 0.2);
+      border-radius: 12px;
+      padding: 2.5rem 3rem;
+      margin-top: 1.5rem;
+    }
+
+    .operations-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background: #18181b;
+      border-radius: 12px;
+      color: var(--accent, #0066cc);
+    }
+
+    .operations-content h3 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-size: 1.35rem;
+    }
+
+    .operations-content p {
+      margin: 0;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    /* --- Overhauled Committee Member Grid --- */
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* Wrap the entire card in an anchor tag so it's fully clickable */
+    .member-card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .member-card {
+      background: #18181b; /* Solid Dark Background */
+      border: 1px solid rgba(120, 120, 120, 0.15);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      height: 100%;
+    }
+
+    .member-card-link:hover .member-card {
+      transform: translateY(-5px);
+      border-color: rgba(99, 179, 255, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      background: #202024; /* Slightly lighter on hover */
+    }
+
+    .member-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #2a2a2a; /* Placeholder color while loading */
+      margin-bottom: 1.25rem;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+
+    .member-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .member-role {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent, #0066cc);
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+    }
+
+    .member-card h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: #ffffff; /* Ensure text is white against the dark background */
+    }
+
+    .member-github-handle {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.8rem;
+      opacity: 0.5;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .member-card-link:hover .member-github-handle {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      main.container > section,
+      .cta-section {
+        margin-top: 3rem;
+      }
+
+      .operations-showcase {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 2rem 1.5rem;
+        gap: 1.5rem;
+      }
+
+      .operations-icon {
+        margin: 0 auto;
+      }
+
+      .member-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body class="page-spaced">
 
-<nav>
-  <a href="/index.html" class="nav-logo">
-    <span>Simulation &amp; Modelling Society</span>
-  </a>
-  <div class="nav-links">
-    <a href="/index.html">Home</a>
-    <a href="/about.html">About</a>
-    <a href="/projects.html">Projects</a>
-    <a href="/members.html" class="active">Team</a>
-    <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener">Blog</a>
-    <a href="/join.html">Join</a>
-  </div>
-</nav>
-
-<main class="container">
-
-  <div class="page-title members-hero">
-    <div>
-      <div class="hero-label">Leadership Team</div>
-      <h1>Committee</h1>
-      <p>Meet the committee and team coordinating MCSMS activities, projects, and member support.</p>
+  <!-- Primary Navigation -->
+  <nav aria-label="Main Navigation">
+    <a href="/index.html" class="nav-logo">
+      <span>Simulation &amp; Modelling Society</span>
+    </a>
+    <div class="nav-links">
+      <a href="/index.html">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/projects.html">Projects</a>
+      <a href="/members.html" class="active" aria-current="page">Team</a>
+      <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a>
+      <a href="/join.html">Join</a>
     </div>
-    <div class="members-hero-panel" aria-label="Committee focus areas">
-      <span>Plan</span>
-      <span>Guide</span>
-      <span>Coordinate</span>
-      <span>Support</span>
-    </div>
-  </div>
+  </nav>
 
-  <section style="margin-top: 2rem;">
-    <div class="section-header">
-      <div class="section-label">Committee</div>
-      <h2>How the Team Works</h2>
-    </div>
-    <div class="status-card">
-      <span class="corner-mark">TEAM</span>
-      <p>The MCSMS committee organises meetings, coordinates project work, supports new members, and keeps the society focused on practical simulation and modelling activities.</p>
-    </div>
-  </section>
+  <main class="container" id="main-content">
 
-  <section>
-    <div class="section-header">
-      <div class="section-label">Team</div>
-      <h2>Committee Directory</h2>
+    <!-- Hero Header Section -->
+    <section class="page-title members-hero">
+      <div>
+        <div class="hero-label">Leadership Team</div>
+        <h1>Committee</h1>
+        <p>Meet the committee coordinating MCSMS activities, projects, and member support.</p>
+      </div>
+    </section>
+
+    <!-- Operational Philosophy (New Clean Layout) -->
+    <section aria-labelledby="operations-heading">
+      <div class="section-header">
+        <div class="section-label">Operations</div>
+        <h2 id="operations-heading">How the Team Works</h2>
+      </div>
+      
+      <div class="operations-showcase">
+        <div class="operations-icon">
+          <!-- Geometric cog/network icon to fit the computational theme -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </div>
+        <div class="operations-content">
+          <h3>Coordination &amp; Support</h3>
+          <p>
+            The MCSMS committee organises regular meetings, coordinates open-source project work, 
+            supports new members, and keeps the society focused on practical simulation and 
+            modelling activities.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Committee Directory -->
+    <section aria-labelledby="directory-heading">
+      <div class="section-header">
+        <div class="section-label">Directory</div>
+        <h2 id="directory-heading">Committee Members</h2>
+      </div>
+
+      <div class="member-grid committee-grid">
+        
+        <!-- President -->
+        <a href="https://github.com/mcsms-org" target="_blank" rel="noopener noreferrer" class="member-card-link">
+          <article class="member-card">
+            <div class="member-avatar">
+              <img src="https://github.com/mcsms-org.png" alt="GitHub Avatar for mcsms-org" loading="lazy">
+            </div>
+            <span class="member-role">President</span>
+            <h3>A. M. I. S. Adikari</h3>
+            <span class="member-github-handle">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+              @mcsms-org
+            </span>
+          </article>
+        </a>
+
+        <!-- Secretary -->
+        <a href="https://github.com/synapse-dot" target="_blank" rel="noopener noreferrer" class="member-card-link">
+          <article class="member-card">
+            <div class="member-avatar">
+              <img src="https://github.com/synapse-dot.png" alt="GitHub Avatar for synapse-dot" loading="lazy">
+            </div>
+            <span class="member-role">Secretary</span>
+            <h3>T. M. S. T. M. Thennakoon</h3>
+            <span class="member-github-handle">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+              @synapse-dot
+            </span>
+          </article>
+        </a>
+
+        <!-- Vice President -->
+        <a href="https://github.com/mcsms-org" target="_blank" rel="noopener noreferrer" class="member-card-link">
+          <article class="member-card">
+            <div class="member-avatar">
+              <img src="https://github.com/mcsms-org.png" alt="GitHub Avatar for mcsms-org" loading="lazy">
+            </div>
+            <span class="member-role">Vice President</span>
+            <h3>S. N. S. B. P. N. Situbandara</h3>
+            <span class="member-github-handle">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+              @mcsms-org
+            </span>
+          </article>
+        </a>
+
+        <!-- Treasurer -->
+        <a href="https://github.com/mcsms-org" target="_blank" rel="noopener noreferrer" class="member-card-link">
+          <article class="member-card">
+            <div class="member-avatar">
+              <img src="https://github.com/mcsms-org.png" alt="GitHub Avatar for mcsms-org" loading="lazy">
+            </div>
+            <span class="member-role">Treasurer</span>
+            <h3>T. M. D. T. Dasanayaka</h3>
+            <span class="member-github-handle">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+              @mcsms-org
+            </span>
+          </article>
+        </a>
+
+        <!-- Chief Coordinator -->
+        <a href="https://github.com/Darthvadertheconqueror" target="_blank" rel="noopener noreferrer" class="member-card-link">
+          <article class="member-card">
+            <div class="member-avatar">
+              <img src="https://github.com/Darthvadertheconqueror.png" alt="GitHub Avatar for Darthvadertheconqueror" loading="lazy">
+            </div>
+            <span class="member-role">Chief Coordinator</span>
+            <h3>R. M. D. S. Rathnayake</h3>
+            <span class="member-github-handle">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+              @Darthvadertheconqueror
+            </span>
+          </article>
+        </a>
+
+        <!-- Technical Advisor -->
+        <a href="https://github.com/synapse-dot" target="_blank" rel="noopener noreferrer" class="member-card-link">
+          <article class="member-card">
+            <div class="member-avatar">
+              <img src="https://github.com/synapse-dot.png" alt="GitHub Avatar for synapse-dot" loading="lazy">
+            </div>
+            <span class="member-role">Technical Advisor</span>
+            <h3>T. M. S. T. M. Thennakoon</h3>
+            <span class="member-github-handle">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+              @synapse-dot
+            </span>
+          </article>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section" aria-label="Join Call to Action">
+      <span class="corner-mark">JOIN</span>
+      <h2>Want to Work With the Team?</h2>
+      <p>
+        Join the society to contribute to simulations, support ongoing project work, 
+        and learn alongside the executive committee.
+      </p>
+      <a href="/join.html" class="btn">Join the Society</a>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" aria-label="Footer Navigation">
+    <div class="footer-content">
+      <p>&copy; 2026 Simulation &amp; Modelling Society</p>
+      <div class="footer-links">
+        <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a>
+        <a href="https://github.com/mcsms-org" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="mailto:simulationandmodellingsociety@gmail.com">Email</a>
+        <a href="https://wa.me/94710638587" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Contact 1">WhatsApp 1</a>
+        <a href="https://wa.me/94776526043" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Contact 2">WhatsApp 2</a>
+      </div>
     </div>
-    <div class="member-grid committee-grid">
-      <article class="member-card">
-        <div class="member-avatar">P</div>
-        <span class="member-role">President</span>
-        <h3>A. M. I. S. Adikari</h3>
-      </article>
-      <article class="member-card">
-        <div class="member-avatar">S</div>
-        <span class="member-role">Secretary</span>
-        <h3>T. M. S. T. M. Thennakoon</h3>
-      </article>
-      <article class="member-card">
-        <div class="member-avatar">VP</div>
-        <span class="member-role">Vice President</span>
-        <h3>S. N. S. B. P. N. Situbandara</h3>
-      </article>
-      <article class="member-card">
-        <div class="member-avatar">T</div>
-        <span class="member-role">Treasurer</span>
-        <h3>T. M. D. T. Dasanayaka</h3>
-      </article>
-      <article class="member-card">
-        <div class="member-avatar">CC</div>
-        <span class="member-role">Chief Coordinator</span>
-        <h3>R. M. D. S. Rathnayake</h3>
-      </article>
-      <article class="member-card">
-        <div class="member-avatar">TA</div>
-        <span class="member-role">Technical Advisor</span>
-        <h3>T. M. S. T. M. Thennakoon</h3>
-      </article>
-    </div>
-  </section>
+  </footer>
 
-  <div class="cta-section">
-    <span class="corner-mark">JOIN</span>
-    <h2>Want to Work With the Team?</h2>
-    <p>Join the society to contribute to simulations, support project work, and learn alongside the committee.</p>
-    <a href="/join.html" class="btn">Join the Society</a>
-  </div>
-
-</main>
-
-<footer class="footer">
-  <div class="footer-content">
-    <p>&copy; 2026 Simulation & Modelling Society</p>
-    <div class="footer-links">
-      <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener">Blog</a>
-      <a href="https://github.com/mcsms-org" target="_blank" rel="noopener">GitHub</a>
-      <a href="mailto:simulationandmodellingsociety@gmail.com">Email</a>
-      <a href="https://wa.me/94710638587" target="_blank" rel="noopener">WhatsApp 1</a>
-      <a href="https://wa.me/94776526043" target="_blank" rel="noopener">WhatsApp 2</a>
-    </div>
-  </div>
-</footer>
-
-<script src="/main.js" defer></script>
+  <script src="/main.js" defer></script>
 </body>
 </html>

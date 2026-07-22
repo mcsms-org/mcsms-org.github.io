@@ -1,123 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Join | Simulation & Modelling Society</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:title" content="Join | Simulation & Modelling Society" />
-<meta property="og:description" content="Exploring science, engineering, and computation through simulation projects." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://mcsms-org.github.io/join.html" />
-<link rel="icon" type="image/png" href="/images/logos/logo.png">
-<link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Join | Simulation &amp; Modelling Society (MCSMS)</title>
+  <meta name="description" content="Join the Simulation & Modelling Society. No prior experience required—just curiosity.">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Join | Simulation &amp; Modelling Society">
+  <meta property="og:description" content="Build simulations, explore computational science, and collaborate on technical projects.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mcsms-org.github.io/join.html">
+  <meta property="og:image" content="https://mcsms-org.github.io/images/logos/logo.png">
+
+  <!-- Twitter Card Data -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Join | Simulation &amp; Modelling Society">
+  <meta name="twitter:description" content="Build simulations, explore computational science, and collaborate on technical projects.">
+  <meta name="twitter:image" content="https://mcsms-org.github.io/images/logos/logo.png">
+
+  <!-- Favicon and Styles -->
+  <link rel="icon" type="image/png" href="/images/logos/logo.png">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Embedded Component Styles -->
+  <style>
+    /* Consistent spacing between all major sections */
+    main.container > section,
+    .cta-section {
+      margin-top: 4.5rem;
+    }
+
+    /* Prevent hero bottom spacing overlap */
+    .page-title {
+      margin-bottom: 0;
+      padding-bottom: 1.5rem;
+    }
+
+    .page-title p {
+      margin-bottom: 0;
+    }
+
+    /* --- Note Box (Matches other solid card styles) --- */
+    .note-box {
+      background: #18181b;
+      border: 1px solid rgba(120, 120, 120, 0.15);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .note-box .section-label {
+      margin-bottom: 0.5rem;
+    }
+
+    .note-box p {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .note-box strong {
+      color: #ffffff;
+    }
+
+    /* --- Info Cards (Commitment & Parents) --- */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .info-card {
+      background: #18181b;
+      border: 1px solid rgba(120, 120, 120, 0.15);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(99, 179, 255, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .info-card h3 {
+      margin: 0.5rem 0 1rem 0;
+      font-size: 1.35rem;
+      color: #ffffff;
+    }
+
+    .info-card p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    /* --- Benefits 2x2 Grid --- */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .benefit-card {
+      background: #18181b;
+      border: 1px solid rgba(120, 120, 120, 0.15);
+      border-radius: 12px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(99, 179, 255, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .benefit-icon {
+      font-family: var(--font-mono, monospace);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent, #0066cc);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .benefit-card h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.2rem;
+      color: #ffffff;
+    }
+
+    .benefit-card p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.5;
+    }
+
+    /* --- CTA Buttons Group --- */
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-start;
+      margin-top: 2rem;
+    }
+
+    .btn.btn-outline {
+      background: transparent;
+      border: 1px solid var(--accent, #0066cc);
+      color: var(--accent, #0066cc);
+    }
+
+    .btn.btn-outline:hover {
+      background: rgba(0, 102, 204, 0.1);
+    }
+
+    /* --- Responsive Adjustments --- */
+    @media (max-width: 768px) {
+      main.container > section,
+      .cta-section {
+        margin-top: 3rem;
+      }
+
+      .info-grid,
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+
+      .btn-group .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
+
 <body class="page-spaced">
 
-<nav>
-  <a href="/index.html" class="nav-logo">
-    <span>Simulation &amp; Modelling Society</span>
-  </a>
-  <div class="nav-links">
-    <a href="/index.html">Home</a>
-    <a href="/about.html">About</a>
-    <a href="/projects.html">Projects</a>
-    <a href="/members.html">Team</a>
-    <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener">Blog</a>
-    <a href="/join.html" class="active">Join</a>
-  </div>
-</nav>
-
-<main class="container">
-
-  <div class="page-title">
-    <div class="hero-label">Open Membership</div>
-    <h1>Join the<br>Society</h1>
-    <p>Build simulations, explore computational science, and collaborate on technical projects with a team of motivated students.</p>
-  </div>
-
-  <div class="status-card">
-    <span class="corner-mark">NOTE</span>
-    <p style="font-family: var(--font-mono); font-size: 0.88rem; color: var(--accent); margin-bottom: 0.5rem; letter-spacing: 0.05em;">No prior experience required.</p>
-    <p>Curiosity and a willingness to learn are enough. We welcome students from all disciplines — physics, computing, mathematics, engineering, and beyond.</p>
-  </div>
-
-
-  <section>
-    <div class="section-header">
-      <div class="section-label">Flexible Commitment</div>
-      <h2>Built for Busy Students</h2>
+  <!-- Primary Navigation -->
+  <nav aria-label="Main Navigation">
+    <a href="/index.html" class="nav-logo">
+      <span>Simulation &amp; Modelling Society</span>
+    </a>
+    <div class="nav-links">
+      <a href="/index.html">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/projects.html">Projects</a>
+      <a href="/members.html">Team</a>
+      <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a>
+      <a href="/join.html" class="active" aria-current="page">Join</a>
     </div>
-    <div class="status-card">
-      <span class="corner-mark">TIME</span>
-      <p>We understand that O/L, A/L, tuition classes, and schoolwork come first. MCSMS is designed with flexible participation, small tasks, and exam-season adjustments. You can still contribute even if you cannot attend every meeting.</p>
-    </div>
-  </section>
+  </nav>
 
-  <section>
-    <div class="section-header">
-      <div class="section-label">Family Support</div>
-      <h2>For Parents</h2>
-    </div>
-    <div class="status-card">
-      <span class="corner-mark">VALUE</span>
-      <p>MCSMS is not just a coding club. Students use mathematics, physics, ICT, and scientific thinking to build small computer models of real-world systems. The society supports academic development, problem-solving, teamwork, communication, and university readiness. Participation is flexible around examination periods.</p>
-    </div>
-  </section>
+  <main class="container" id="main-content">
 
-  <section>
-    <div class="section-header">
-      <div class="section-label">Benefits</div>
-      <h2>Why Join?</h2>
-    </div>
-    <div class="why-grid">
-      <div class="why-card">
-        <span class="why-icon">[ L ]</span>
-        <h3>Learn</h3>
-        <p>Build real computational projects from scratch with hands-on guidance.</p>
+    <!-- Hero Header Section -->
+    <section class="page-title">
+      <div>
+        <div class="hero-label">Open Membership</div>
+        <h1>Join the Society</h1>
+        <p>Build simulations, explore computational science, and collaborate on technical projects with a team of motivated students.</p>
       </div>
-      <div class="why-card">
-        <span class="why-icon">[ E ]</span>
-        <h3>Explore</h3>
-        <p>Simulate physics, AI, complex systems, and more across disciplines.</p>
+
+      <!-- Note Box -->
+      <div class="note-box">
+        <div class="section-label">Note</div>
+        <p>
+          <strong>No prior experience required.</strong> Curiosity and a willingness to learn are enough. We welcome students from all disciplines — physics, computing, mathematics, engineering, and beyond.
+        </p>
       </div>
-      <div class="why-card">
-        <span class="why-icon">[ C ]</span>
-        <h3>Collaborate</h3>
-        <p>Work alongside motivated, curious students on shared projects.</p>
+    </section>
+
+    <!-- Information Sections (Commitment & Parents) -->
+    <section aria-label="Commitment and Support Information">
+      <div class="info-grid">
+        
+        <!-- Flexible Commitment Card -->
+        <article class="info-card">
+          <div class="section-label">Flexible Commitment</div>
+          <h3>Built for Busy Students</h3>
+          <p>
+            We understand that O/L, A/L, tuition classes, and schoolwork come first. MCSMS is designed with flexible participation, small tasks, and exam-season adjustments. You can still contribute even if you cannot attend every meeting.
+          </p>
+        </article>
+
+        <!-- Family Support Card -->
+        <article class="info-card">
+          <div class="section-label">Family Support</div>
+          <h3>For Parents</h3>
+          <p>
+            MCSMS is not just a coding club. Students use mathematics, physics, ICT, and scientific thinking to build small computer models of real-world systems. The society supports academic development, problem-solving, teamwork, communication, and university readiness.
+          </p>
+        </article>
+
       </div>
-      <div class="why-card">
-        <span class="why-icon">[ B ]</span>
-        <h3>Build</h3>
-        <p>Create a portfolio of projects that matter for uni and career.</p>
+    </section>
+
+    <!-- Benefits Section (2x2 Grid) -->
+    <section aria-labelledby="benefits-heading">
+      <div class="section-header">
+        <div class="section-label">Benefits</div>
+        <h2 id="benefits-heading">Why Join?</h2>
+      </div>
+
+      <div class="benefits-grid">
+        <article class="benefit-card">
+          <span class="benefit-icon">[ L ]</span>
+          <h3>Learn</h3>
+          <p>Build real computational projects from scratch with hands-on guidance.</p>
+        </article>
+
+        <article class="benefit-card">
+          <span class="benefit-icon">[ E ]</span>
+          <h3>Explore</h3>
+          <p>Simulate physics, AI, complex systems, and more across disciplines.</p>
+        </article>
+
+        <article class="benefit-card">
+          <span class="benefit-icon">[ C ]</span>
+          <h3>Collaborate</h3>
+          <p>Work alongside motivated, curious students on shared projects.</p>
+        </article>
+
+        <article class="benefit-card">
+          <span class="benefit-icon">[ B ]</span>
+          <h3>Build</h3>
+          <p>Create a portfolio of projects that matter for uni and career.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section" aria-label="Apply to Join">
+      <span class="corner-mark">APPLY</span>
+      <h2>Ready to Contribute?</h2>
+      <p>
+        To join, please fill out the membership form below. You can also connect with us via one of the contact links in the footer if you have any questions.
+      </p>
+      
+      <div class="btn-group">
+        <!-- Main Form Link (/viewform) -->
+        <a href="https://docs.google.com/forms/d/1QAQ9lk9LTNKgBGnnJqEYFJ9LVULyghigWNefAnbMd48/viewform" target="_blank" rel="noopener noreferrer" class="btn">
+          Open Google Form
+        </a>
+        <!-- WhatsApp Link -->
+        <a href="https://chat.whatsapp.com/HU9NOJpJCBEJmp4VDI8OQ8" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+          Join WhatsApp
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" aria-label="Footer Navigation">
+    <div class="footer-content">
+      <p>&copy; 2026 Simulation &amp; Modelling Society</p>
+      <div class="footer-links">
+        <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a>
+        <a href="https://github.com/mcsms-org" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="mailto:simulationandmodellingsociety@gmail.com">Email</a>
+        <a href="https://wa.me/94710638587" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Contact 1">WhatsApp 1</a>
+        <a href="https://wa.me/94776526043" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Contact 2">WhatsApp 2</a>
       </div>
     </div>
-  </section>
+  </footer>
 
-  <div class="cta-section">
-    <span class="corner-mark">APPLY</span>
-    <h2>Ready to Contribute?</h2>
-    <p>To join, please download and print the membership form below. You can also request a form by connecting with us via one of the contact links in the footer.</p>
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
-      <a href="/form.pdf" class="btn" target="_blank">Download Form (PDF)</a>
-      <a href="https://chat.whatsapp.com/HU9NOJpJCBEJmp4VDI8OQ8" class="btn btn-outline" target="_blank" rel="noopener">Join WhatsApp</a>
-    </div>
-  </div>
-
-</main>
-
-<footer class="footer">
-  <div class="footer-content">
-    <p>&copy; 2026 Simulation & Modelling Society</p>
-    <div class="footer-links">
-      <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener">Blog</a>
-      <a href="https://github.com/mcsms-org" target="_blank" rel="noopener">GitHub</a>
-      <a href="mailto:simulationandmodellingsociety@gmail.com">Email</a>
-      <a href="https://wa.me/94710638587" target="_blank" rel="noopener">WhatsApp 1</a>
-      <a href="https://wa.me/94776526043" target="_blank" rel="noopener">WhatsApp 2</a>
-    </div>
-  </div>
-</footer>
-
-<script src="/main.js" defer></script>
+  <script src="/main.js" defer></script>
 </body>
 </html>
