@@ -1,271 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>About | Simulation & Modelling Society</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:title" content="About | Simulation & Modelling Society" />
-<meta property="og:description" content="Meet the team behind the Simulation & Modelling Society." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://mcsms-org.github.io/about.html" />
-<link rel="icon" type="image/png" href="/images/logos/logo.png">
-<link rel="stylesheet" href="/css/style.css">
-<style>
-  .team-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-  .team-card {
-    background: var(--surface);
-    padding: 2rem;
-    display: flex;
-    gap: 1.5rem;
-  }
-  .team-avatar {
-    width: 60px;
-    height: 60px;
-    background: var(--accent-dim);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-mono);
-    font-weight: 700;
-    color: var(--accent);
-    flex-shrink: 0;
-  }
-  .team-name { margin-bottom: 0.2rem; }
-  .team-role {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--accent);
-    display: block;
-    margin-bottom: 0.8rem;
-    letter-spacing: 0.05em;
-  }
-  .team-bio { font-size: 0.85rem; color: var(--muted); }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  /* Origin & Affiliations */
-  .origin-split {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 1.5rem;
-    align-items: stretch;
-    margin-top: 1rem;
-  }
-  
-  .story-card, .affiliations-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 2.5rem;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    transition: all 0.3s ease;
-  }
-  
-  .story-card:hover, .affiliations-card:hover {
-    border-color: var(--accent);
-    background: var(--surface-2);
-    box-shadow: 0 10px 30px rgba(99, 179, 255, 0.05);
-  }
-  
-  .story-card::before, .affiliations-card::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: var(--accent);
-  }
-  
-  .story-logo-small {
-    width: 64px;
-    height: 64px;
-    margin-bottom: 1.5rem;
-    filter: drop-shadow(0 0 8px rgba(99, 179, 255, 0.3));
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--surface-2);
-    padding: 2px;
-  }
-  
-  .story-card h3, .affiliations-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    font-family: var(--font-display);
-    color: var(--text);
-  }
-  
-  .story-card p {
-    color: var(--muted);
-    line-height: 1.8;
-    font-size: 1.05rem;
-  }
-  
-  .affiliations-desc {
-    color: var(--muted);
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-  }
-  
-  .logos-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  
-  .logo-item {
-    background: rgba(99, 179, 255, 0.02);
-    border: 1px solid var(--border);
-    padding: 1.25rem 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.8rem;
-    text-align: center;
-    transition: all 0.2s ease;
-    border-radius: 8px;
-  }
-  
-  .logo-item:hover {
-    background: rgba(99, 179, 255, 0.06);
-    border-color: rgba(99, 179, 255, 0.25);
-    transform: translateY(-2px);
-  }
-  
-  .logo-item img {
-    height: 55px;
-    max-width: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
-    display: block;
-  }
-  
-  .logo-item span {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    line-height: 1.3;
-  }
-  
-  @media (max-width: 768px) {
-    .origin-split {
-      grid-template-columns: 1fr;
+  <title>About | Simulation &amp; Modelling Society (MCSMS)</title>
+  <meta name="description" content="Learn about the Simulation & Modelling Society (MCSMS) at Maliyadeva College — a student-led community dedicated to computational science and engineering.">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="About | Simulation &amp; Modelling Society">
+  <meta property="og:description" content="A student-run society exploring science, engineering, and computation through hands-on simulation projects.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mcsms-org.github.io/about.html">
+  <meta property="og:image" content="https://mcsms-org.github.io/images/logos/logo.png">
+
+  <!-- Twitter Card Data -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About | Simulation &amp; Modelling Society">
+  <meta name="twitter:description" content="A student-run society exploring science, engineering, and computation through hands-on simulation projects.">
+  <meta name="twitter:image" content="https://mcsms-org.github.io/images/logos/logo.png">
+
+  <!-- Favicon and Styles -->
+  <link rel="icon" type="image/png" href="/images/logos/logo.png">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Embedded Component Styles -->
+  <style>
+    /* Apply consistent top spacing across all major sections */
+    main.container > section,
+    .cta-section {
+      margin-top: 4.5rem; /* Adjust this value to make the gap larger or smaller */
     }
+    .logos-inline {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .logos-inline img {
+      height: 70px;
+      width: auto;
+      object-fit: contain;
+      transition: transform 0.2s ease;
+    }
+
+    .logos-inline img:hover {
+      transform: scale(1.03);
+    }
+
+    @media (max-width: 768px) {
+      .logos-inline {
+        justify-content: center;
+      }
+
+      .logos-inline img {
+        height: 55px;
+      }
+    }
+  </style>
+
+  <!-- Structured Data for Search Engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "Simulation & Modelling Society",
+    "alternateName": "MCSMS",
+    "url": "https://mcsms-org.github.io/about.html",
+    "logo": "https://mcsms-org.github.io/images/logos/logo.png",
+    "parentOrganization": {
+      "@type": "School",
+      "name": "Maliyadeva College"
+    },
+    "email": "simulationandmodellingsociety@gmail.com",
+    "sameAs": [
+      "https://mcsms-org.blogspot.com/",
+      "https://github.com/mcsms-org"
+    ]
   }
-</style>
+  </script>
 </head>
+
 <body>
 
-<nav>
-  <a href="/index.html" class="nav-logo">
-    <span>Simulation &amp; Modelling Society</span>
-  </a>
-  <div class="nav-links">
-    <a href="/index.html">Home</a>
-    <a href="/about.html" class="active">About</a>
-    <a href="/projects.html">Projects</a>
-    <a href="/members.html">Team</a>
-    <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener">Blog</a>
-    <a href="/join.html">Join</a>
-  </div>
-</nav>
+  <!-- Primary Navigation -->
+  <nav aria-label="Main Navigation">
+    <a href="/index.html" class="nav-logo">
+      <span>Simulation &amp; Modelling Society</span>
+    </a>
 
-<main class="container">
-
-  <div class="page-title">
-    <div class="hero-label">Who We Are</div>
-    <h1>About the<br>Society</h1>
-    <p>A student-run society dedicated to exploring science, engineering, and computation through hands-on simulation projects.</p>
-  </div>
-
-  <section style="margin-top: 2rem;">
-    <div class="section-header">
-      <div class="section-label">Origin</div>
-      <h2>How We Started &amp; Affiliations</h2>
+    <div class="nav-links">
+      <a href="/index.html">Home</a>
+      <a href="/about.html" class="active" aria-current="page">About</a>
+      <a href="/projects.html">Projects</a>
+      <a href="/members.html">Team</a>
+      <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a>
+      <a href="/join.html">Join</a>
     </div>
-    <div class="origin-split">
-      <div class="story-card">
-        <span class="corner-mark">EST. 2026</span>
-        <img src="/images/logos/logo.png" alt="MCSMS Logo" class="story-logo-small">
-        <h3>Our History</h3>
-        <p>The Simulation &amp; Modelling Society was founded in <strong>2026</strong> at <strong>Maliyadeva College</strong> by a small group of students who wanted a space to apply computational thinking beyond the lecture hall. What started as informal study sessions around physics simulations grew into a structured society with a roadmap of collaborative projects.</p>
+  </nav>
+
+  <main class="container" id="main-content">
+
+    <!-- Hero Header Section -->
+    <section class="page-title hero">
+      <div class="hero-label">Who We Are</div>
+      <h1>About the<br>Society</h1>
+      <p>
+        A student-run society dedicated to exploring science,
+        engineering, and computation through hands-on simulation
+        projects.
+      </p>
+    </section>
+
+    <!-- Our Story & Affiliations -->
+    <section aria-labelledby="story-heading">
+      <div class="section-header">
+        <div class="section-label">About MCSMS</div>
+        <h2 id="story-heading">Our Story</h2>
       </div>
-      
-      <div class="affiliations-card">
-        <span class="corner-mark">AFFILIATED WITH</span>
-        <h3>Partners &amp; Affiliations</h3>
-        <p class="affiliations-desc">MCSMS works in close cooperation with the school administration and the ICT society to promote computer science education.</p>
-        <div class="logos-grid">
-          <div class="logo-item">
-            <img src="/images/logos/crest-c.png" alt="Maliyadeva College Logo">
-            <span>Maliyadeva College</span>
-          </div>
-          <div class="logo-item">
-            <img src="/images/logos/ict_society.png" alt="Maliyadeva College ICT Society Logo">
-            <span>Maliyadeva College ICT Society</span>
+
+      <div class="card-grid">
+        <div class="card">
+          <span class="card-num">01</span>
+          <h3>Background</h3>
+          <p>
+            The Simulation &amp; Modelling Society (MCSMS) was established in
+            <strong>2026</strong> at <strong>Maliyadeva College</strong> to
+            provide students with opportunities to explore computational science
+            through simulations, modelling, and collaborative projects.
+          </p>
+          <p style="margin-top: 1rem;">
+            What began as a small group of students sharing an interest in
+            scientific computing has grown into a student-led community committed
+            to learning by building, experimenting, and sharing knowledge.
+          </p>
+        </div>
+
+        <div class="card">
+          <span class="card-num">02</span>
+          <h3>Affiliations</h3>
+          <p>
+            MCSMS is based at <strong>Maliyadeva College</strong> and works in
+            collaboration with the <strong>Maliyadeva College ICT Society</strong>
+            to promote computational science, programming, and technology
+            education across the student body.
+          </p>
+
+          <div class="logos-inline">
+            <img src="/images/logos/crest-c.png" alt="Maliyadeva College Crest" loading="lazy">
+            <img src="/images/logos/ict_society.png" alt="Maliyadeva College ICT Society Emblem" loading="lazy">
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section>
-    <div class="section-header">
-      <div class="section-label">Mission</div>
-      <h2>What We Stand For</h2>
-    </div>
-    <div class="card-grid">
-      <div class="card">
-        <span class="card-num">01</span>
-        <h3>Hands-On Learning</h3>
-        <p>We believe the best way to understand a system is to build one. Every project starts from first principles — no black boxes.</p>
+    <!-- Mission & Pillars -->
+    <section aria-labelledby="mission-heading">
+      <div class="section-header">
+        <div class="section-label">Mission</div>
+        <h2 id="mission-heading">What We Stand For</h2>
       </div>
-      <div class="card">
-        <span class="card-num">02</span>
-        <h3>Open Collaboration</h3>
-        <p>Projects are owned by the whole team. Ideas, code, and credit are shared openly regardless of experience level.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <span class="card-num">01</span>
+          <h3>Hands-On Learning</h3>
+          <p>
+            We believe the best way to understand a system is to build one.
+            Every project starts from first principles — no black boxes.
+          </p>
+        </div>
+
+        <div class="card">
+          <span class="card-num">02</span>
+          <h3>Open Collaboration</h3>
+          <p>
+            Projects are owned by the whole team. Ideas, code, and credit are
+            shared openly regardless of prior experience level.
+          </p>
+        </div>
+
+        <div class="card">
+          <span class="card-num">03</span>
+          <h3>Rigorous Curiosity</h3>
+          <p>
+            We ask hard questions and investigate them carefully. All members adhere
+            to our
+            <a href="/code.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--accent, #0066cc);">
+              Code of Conduct (PDF)
+            </a>.
+          </p>
+        </div>
       </div>
-      <div class="card">
-        <span class="card-num">03</span>
-        <h3>Rigorous Curiosity</h3>
-        <p>We ask hard questions and follow them carefully. All members adhere to our <a href="/code.pdf" target="_blank" style="color: var(--accent);">Code of Conduct (PDF)</a>.</p>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section" aria-label="Join Call to Action">
+      <span class="corner-mark">JOIN</span>
+      <h2>Want to Be Part of This?</h2>
+      <p>
+        We're always looking for curious minds. No prior experience is required —
+        just bring your curiosity for how things work.
+      </p>
+      <a href="/join.html" class="btn">Join the Society</a>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" aria-label="Footer Navigation">
+    <div class="footer-content">
+      <p>&copy; 2026 Simulation &amp; Modelling Society</p>
+
+      <div class="footer-links">
+        <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a>
+        <a href="https://github.com/mcsms-org" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="mailto:simulationandmodellingsociety@gmail.com">Email</a>
+        <a href="https://wa.me/94710638587" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Contact 1">WhatsApp 1</a>
+        <a href="https://wa.me/94776526043" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Contact 2">WhatsApp 2</a>
       </div>
     </div>
-  </section>
+  </footer>
 
-  <div class="cta-section">
-    <span class="corner-mark">JOIN</span>
-    <h2>Want to Be Part of This?</h2>
-    <p>We're always looking for curious people. No experience required — just bring your interest in how things work.</p>
-    <a href="/join.html" class="btn">Join the Society</a>
-  </div>
-
-</main>
-
-<footer class="footer">
-  <div class="footer-content">
-    <p>&copy; 2026 Simulation & Modelling Society</p>
-    <div class="footer-links">
-      <a href="https://mcsms-org.blogspot.com/" target="_blank" rel="noopener">Blog</a>
-      <a href="https://github.com/mcsms-org" target="_blank" rel="noopener">GitHub</a>
-      <a href="mailto:simulationandmodellingsociety@gmail.com">Email</a>
-      <a href="https://wa.me/94710638587" target="_blank" rel="noopener">WhatsApp 1</a>
-      <a href="https://wa.me/94776526043" target="_blank" rel="noopener">WhatsApp 2</a>
-    </div>
-  </div>
-</footer>
-
-<script src="/main.js" defer></script>
+  <script src="/main.js" defer></script>
 </body>
 </html>
